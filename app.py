@@ -2,6 +2,7 @@
 
 from flask import Flask, redirect, render_template, url_for
 from flask_debugtoolbar import DebugToolbarExtension
+from forms import LoginForm, RegisterForm
 
 app = Flask(__name__)
 
@@ -24,14 +25,17 @@ def redirect_to_home():
 @app.route('/home')
 def show_home():
     """Show home page."""
-    return render_template('home.html')
 
-
-@app.route('/login', methods=['POST'])
-def login():
-    """Log user in."""
-
-
-@app.route('/register', methods=['POST'])
-def register():
-    """Register new user."""
+    login_form = LoginForm()
+    register_form = RegisterForm()
+    if login_form.validate_on_submit():
+        username = login_form.username.data
+        password = login_form.password.data
+        return redirect('/home')
+    elif register_form.validate_on_submit():
+        email = register_form.email.data
+        username = register_form.username.data
+        password = register_form.password.data
+        return redirect('/home')
+    else:
+        return render_template('home.html', login_form=login_form, register_form=register_form)

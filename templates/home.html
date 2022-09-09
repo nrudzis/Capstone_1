@@ -3,25 +3,33 @@
 {% block h1 %}Home{% endblock %}
 {% block content %}
 <div id="login-section">
-  <form action="" method="post">
-    <label for="username-login">Username:</label>
-    <input type="text" id="username-login" name="username=login">
-    <label for="password-login">Password:</label>
-    <input type="password" id="password-login" name="password-login">
+  <form action="{{ url_for('show_home') }}" method="post">
+    {{ login_form.hidden_tag()}}
+    {% for field in login_form if field.widget.input_type != 'hidden' %}
+    <p>
+      {{ field.label(class_="form-label") }}
+      {{ field(class_="form-control") }}
+      {% for e in field.errors %}
+      <small>{{ e }}</small>
+      {% endfor %}
+    </p>
+    {% endfor %}
     <input type="submit" value="Log In">
   </form>
   <p>Don't have an account? Register <a href="#" id="register-section-show">here</a>!</p>
 </div>
 <div id="register-section">
-  <form action="" method="post">
-    <label for="email-register">Email:</label>
-    <input type="email" id="email-register" name="email-register">
-    <label for="username-register">Username:</label>
-    <input type="text" id="username-register" name="username-register">
-    <label for="password-register">Password:</label>
-    <input type="password" id="password-register" name="password-register">
-    <label for="password-register-verify">Verify Password:</label>
-    <input type="password" id="password-register-verify" name="password-register-verify">
+  <form action="{{ url_for('show_home') }}" method="post">
+    {{ register_form.hidden_tag()}}
+    {% for field in register_form if field.widget.input_type != 'hidden' %}
+    <p>
+      {{ field.label(class_="form-label") }}
+      {{ field(class_="form-control") }}
+      {% for e in field.errors %}
+      <small>{{ e }}</small>
+      {% endfor %}
+    </p>
+    {% endfor %}
     <input type="submit" value="Register">
   </form>
   <p>Already have an account? Log in <a href="#" id="login-section-show">here</a>!</p>
