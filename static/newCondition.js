@@ -1,3 +1,7 @@
+$(document).on("click", ".remove-condition", function() {
+  $(this).parent().remove();
+});
+
 $("#new-condition").click(function() {
   const $newConditionSelect = $("form").children().first().clone();
   $newConditionSelect.insertBefore($("#new-condition"));
