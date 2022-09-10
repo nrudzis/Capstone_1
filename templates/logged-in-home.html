@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block h1 %}Home{% endblock %}
+{% block content %}
+<form action="">
+  <div>
+    <select>
+      <option></option>
+      <option>latest quarterly eps growth</option>
+      <option>1 quarter ago eps growth</option>
+      <option>2 quarters ago eps growth</option>
+      <option>latest yearly eps growth</option>
+      <option>1 year ago eps growth</option>
+      <option>2 years ago eps growth</option>
+    </select>
+    <select>
+      <option></option>
+      <option>></option>
+      <option><</option>
+      <option>=</option>
+    </select>
+    <input type="number">
+  </div>
+  <button type="button" id="new-condition">add another condition</button>
+  <input type="submit" value="submit">
+</form>
+{% endblock %}
+{% block scripts %}
+<script src={{ url_for('static', filename='newCondition.js') }}></script>
+{% endblock %}

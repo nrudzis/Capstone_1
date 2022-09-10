@@ -7,14 +7,13 @@
     {{ login_form.hidden_tag()}}
     {% for field in login_form if field.widget.input_type != 'hidden' %}
     <p>
-      {{ field.label(class_="form-label") }}
+      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
       {{ field(class_="form-control") }}
       {% for e in field.errors %}
       <small>{{ e }}</small>
       {% endfor %}
     </p>
     {% endfor %}
-    <input type="submit" value="Log In">
   </form>
   <p>Don't have an account? Register <a href="#" id="register-section-show">here</a>!</p>
 </div>
@@ -23,14 +22,13 @@
     {{ register_form.hidden_tag()}}
     {% for field in register_form if field.widget.input_type != 'hidden' %}
     <p>
-      {{ field.label(class_="form-label") }}
+      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
       {{ field(class_="form-control") }}
       {% for e in field.errors %}
       <small>{{ e }}</small>
       {% endfor %}
     </p>
     {% endfor %}
-    <input type="submit" value="Register">
   </form>
   <p>Already have an account? Log in <a href="#" id="login-section-show">here</a>!</p>
 </div>

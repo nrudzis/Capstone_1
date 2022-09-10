@@ -1,9 +1,12 @@
 """Models for Stocks."""
 
-from flask-sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 from datetime import datetime
 
 db = SQLAlchemy()
+bcrypt = Bcrypt()
+
 
 def connect_db(app):
     db.app = app
@@ -12,12 +15,28 @@ def connect_db(app):
 class User(db.Model):
     """User model."""
 
-     __tablename__ = 'users'
+    __tablename__ = 'users'
 
-     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-     email = db.Column(db.String(30), nullable=False)
-     username = db.Column(db.String(30), nullable=False)
-     password = db.Column(db.Text, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.String(30), nullable=False)
+    username = db.Column(db.String(30), nullable=False)
+    password = db.Column(db.Text, nullable=False)
+
+    @classmethod
+    def authenticate(cls, username, pwd):
+        """Return user if exists, else return false."""
+        u = User.query.filter_by(username=username).first()
+        if u and bcrypt.check_password_hash(u.password, pwd):
+            return u
+        else:
+            return False
+
+    @classmethod
+    def register(cls, email, username, pwd):
+        """Register and return new user."""
+        hashed = bcrypt.generate_password_hash(pwd)
+        hashed_utf8 = hashed.decode('utf8')
+        return cls(email=email, username=username, password=hashed_utf8)
 
 class Company(db.Model):
     """Company model."""
