@@ -1,9 +1,9 @@
 """Stocks application."""
 
-from flask import Flask, redirect, render_template, url_for, session
+from flask import Flask, redirect, render_template, url_for, session, request
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User
-from forms import LoginForm, RegisterForm
+from models import db, connect_db, User, Company
+from forms import LoginForm, RegisterForm, SearchForm
 
 app = Flask(__name__)
 
@@ -25,7 +25,7 @@ def redirect_to_home():
 
 @app.route('/home', methods=['GET', 'POST'])
 def show_home():
-    """Show home page."""
+    """Display home page."""
 
     if 'username' not in session:
         login_form = LoginForm()
@@ -51,4 +51,17 @@ def show_home():
         else:
             return render_template('logged-out-home.html', login_form=login_form, register_form=register_form)
     else:
-        return render_template('logged-in-home.html')
+        search_form = SearchForm()
+        if search_form.validate_on_submit():
+            return redirect('/companies/search-results')
+        return render_template('logged-in-home.html', search_form=search_form)
+
+
+@app.route('/companies/search-results', methods=['POST'])
+def show_results():
+    """Display results of search."""
+
+    form_values = list(request.form.to_dict().values())
+    query_elements = [(form_values[i], form_values[i+1], form_values[i+2]) for i in range(1, len(form_values), 3)]
+    companies = Company.search(query_elements)
+    return render_template('search-results.html', companies=companies)

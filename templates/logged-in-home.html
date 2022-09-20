@@ -2,6 +2,10 @@
 {% block title %}Home{% endblock %}
 {% block h1 %}Home{% endblock %}
 {% block content %}
+
+<!-- FOR WORK ON REGULAR FORM -->
+
+<!--
 <form action="">
   <div>
     <select>
@@ -25,6 +29,22 @@
   <button type="button" id="new-condition">add another condition</button>
   <input type="submit" value="submit">
 </form>
+-->
+
+<!-- FOR WORK ON WTFORMS FORM -->
+
+<form action="{{ url_for('show_results') }}" method="post">
+  {{ search_form.hidden_tag() }}
+  {% for subform in search_form if subform.widget.input_type != 'hidden' %}
+    {{ subform.label(class_="form-label") }}
+    {{ subform(class_="form-control") }}
+    {% for e in subform.errors %}
+    <small>{{ e }}</small>
+    {% endfor %}
+  {% endfor %}
+  <input type="submit">
+</form>
+
 {% endblock %}
 {% block scripts %}
 <script src={{ url_for('static', filename='newCondition.js') }}></script>

@@ -55,6 +55,19 @@ class Company(db.Model):
     a_eps_growth_last = db.Column(db.Numeric)
     institutional_holders = db.Column(db.Integer)
 
+    @classmethod
+    def search(cls, elements):
+        query = Company.query
+        for attr, rel, amt in elements:
+            if rel == 'greater':
+                query = query.filter(getattr(Company, attr) > amt)
+            elif rel == 'less':
+                query = query.filter(getattr(Company, attr) < amt)
+            else:
+                query = query.filter(getattr(Company, attr) == amt)
+        return query.all()
+
+
 class Watchlist(db.Model):
     """Watchlist model."""
 

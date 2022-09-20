@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Search Results{% endblock %}
+{% block h1 %}Search Results{% endblock %}
+{% block content %}
+<ul>
+{% for company in companies %}
+<li>{{ company.ticker }} - {{ company.name }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
+{% block scripts %}
+{% endblock %}
