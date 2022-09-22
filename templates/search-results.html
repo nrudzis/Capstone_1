@@ -4,7 +4,7 @@
 {% block content %}
 <ul>
 {% for company in companies %}
-<li>{{ company.ticker }} - {{ company.name }}</li>
+<li><a href="{{ url_for('show_company_info', ticker=company.ticker) }}">{{ company.name }} ({{ company.ticker }})</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}{{ company.name }} ({{ company.ticker }}){% endblock %}
+{% block h1 %}{{ company.name }} ({{ company.ticker }}){% endblock %}
+{% block content %}
+<h2>Description:</h2>
+<p>{{ company.description }}</p>
+<h2>Data:</h2>
+<table style="border: 1px solid black">
+  <thead>
+    <tr>
+      <th colspan="100%" style="border: 1px solid black">EPS Data (Most Recent First)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th style="border: 1px solid black">Quarterly EPS Growth (%)</th>
+      <th style="border: 1px solid black">Annual EPS Growth (%)</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black">{{ company.q_eps_growth_first if company.q_eps_growth_first is not none else '--' }}</td>
+      <td style="border: 1px solid black">{{ company.a_eps_growth_first if company.a_eps_growth_first is not none else '--' }}</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black">{{ company.q_eps_growth_last if company.q_eps_growth_last is not none else '--' }}</td>
+      <td style="border: 1px solid black">{{ company.a_eps_growth_next if company.a_eps_growth_next is not none else '--' }}</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black">{{ company.a_eps_growth_first if company.a_eps_growth_first is not none else '--' }}</td>
+      <td style="border: 1px solid black">{{ company.a_eps_growth_last if company.a_eps_growth_last is not none else '--' }}</td>
+    </tr>
+  </tbody>
+</table>
+<p><strong>Institutional Holders:</strong> {{ company.institutional_holders }}</p>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

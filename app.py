@@ -64,4 +64,15 @@ def show_results():
     form_values = list(request.form.to_dict().values())
     query_elements = [(form_values[i], form_values[i+1], form_values[i+2]) for i in range(1, len(form_values), 3)]
     companies = Company.search(query_elements)
+    for company in companies:
+        session[company.ticker] = company.id
     return render_template('search-results.html', companies=companies)
+
+
+@app.route('/companies/<ticker>')
+def show_company_info(ticker):
+    """Display company info."""
+
+    company_id = session[ticker]
+    company = Company.query.get_or_404(company_id)
+    return render_template('company-info.html', company=company)
