@@ -2,11 +2,38 @@
 {% block title %}Search Results{% endblock %}
 {% block h1 %}Search Results{% endblock %}
 {% block content %}
-<ul>
-{% for company in companies %}
-<li><a href="{{ url_for('show_company_info', ticker=company.ticker) }}">{{ company.name }} ({{ company.ticker }})</a></li>
-{% endfor %}
-</ul>
+<div id="search-results-section">
+  {% if companies %}
+  <ul>
+    {% for company in companies %}
+    <li>
+      <a href="{{ url_for('show_company_info', ticker=company.ticker) }}">{{ company.name }} ({{ company.ticker }})</a>
+    </li>
+    {% endfor %}
+  </ul>
+  <button id="watchlist-form-section-show">Save Results in Watchlist</button>
+  {% else %}
+  <p>No results found.</p>
+  {% endif %}
+  <a href="{{ url_for('show_home') }}">New Search</a>
+</div>
+<div id="watchlist-form-section">
+  <h1>Save Watchlist</h1>
+  <form action="{{ url_for('show_results') }}" method="post">
+    {{ watchlist_form.hidden_tag()}}
+    {% for field in watchlist_form if field.widget.input_type != 'hidden' %}
+    <p>
+      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
+      {{ field(class_="form-control") }}
+      {% for e in field.errors %}
+      <small>{{ e }}</small>
+      {% endfor %}
+    </p>
+    {% endfor %}
+  </form>
+  <button id="watchlist-form-section-hide">Cancel</button>
+</div>
 {% endblock %}
 {% block scripts %}
+<script src={{ url_for('static', filename='watchlistFormToggle.js') }}></script>
 {% endblock %}

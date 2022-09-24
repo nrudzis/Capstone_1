@@ -20,7 +20,7 @@ class RegisterForm(FlaskForm):
     register_submit = SubmitField('Register')
 
 class SearchSubform(Form):
-    data_select = SelectField(choices=[
+    attribute = SelectField(choices=[
             ('q_eps_growth_first', 'Latest Quarterly EPS Growth'),
             ('q_eps_growth_next', '1 Quarter Ago Quarterly EPS Growth'),
             ('q_eps_growth_last', '2 Quarters Ago Quarterly EPS Growth'),
@@ -29,7 +29,7 @@ class SearchSubform(Form):
             ('a_eps_growth_last', '2 Years Ago Annual EPS Growth'),
             ('institutional_holders', 'Institutional Holders')
         ])
-    relation_select = SelectField(choices=[
+    relation = SelectField(choices=[
             ('greater', '>'),
             ('less', '<'),
             ('equal', '=')
@@ -38,3 +38,7 @@ class SearchSubform(Form):
 
 class SearchForm(FlaskForm):
     search = FieldList(FormField(SearchSubform), min_entries=1)
+
+class WatchlistForm(FlaskForm):
+    title = StringField('New Watchlist Title', validators=[])
+    watchlist_submit = SubmitField('Save')

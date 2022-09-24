@@ -33,7 +33,7 @@
 
 <!-- FOR WORK ON WTFORMS FORM -->
 
-<form action="{{ url_for('show_results') }}" method="post">
+<form action="{{ url_for('show_results') }}" method="get">
   {{ search_form.hidden_tag() }}
   {% for subform in search_form if subform.widget.input_type != 'hidden' %}
     {{ subform.label(class_="form-label") }}

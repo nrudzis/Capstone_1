@@ -15,7 +15,7 @@
     </p>
     {% endfor %}
   </form>
-  <p>Don't have an account? Register <a href="#" id="register-section-show">here</a>!</p>
+  <p>Don't have an account? Register <button id="register-section-show">here</button>!</p>
 </div>
 <div id="register-section">
   <form action="{{ url_for('show_home') }}" method="post">
@@ -30,7 +30,7 @@
     </p>
     {% endfor %}
   </form>
-  <p>Already have an account? Log in <a href="#" id="login-section-show">here</a>!</p>
+  <p>Already have an account? Log in <button id="login-section-show">here</button>!</p>
 </div>
 {% endblock %}
 {% block scripts %}

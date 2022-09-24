@@ -11,6 +11,7 @@ $("#new-condition").click(function() {
     $("#new-condition").prop("disabled", true);
   }
 });
+*/
 
 // FOR WORK ON WTFORMS FORM
 $("ul").append(
@@ -20,10 +21,10 @@ $("ul").append(
       <tbody>
         <tr>
           <th>
-            <label for="search-1-data_select">Data Select</label>
+            <label for="search-1-attribute">Attribute</label>
           </th>
           <td>
-            <select id="search-1-data_select" name="search-1-data_select">
+            <select id="search-1-attribute" name="search-1-attribute">
               <option value="q_eps_growth_first">Latest Quarterly EPS Growth</option>
               <option value="q_eps_growth_next">1 Quarter Ago Quarterly EPS Growth</option>
               <option value="q_eps_growth_last">2 Quarters Ago Quarterly EPS Growth</option>
@@ -36,10 +37,10 @@ $("ul").append(
         </tr>
         <tr>
           <th>
-            <label for="search-1-relation_select">Relation Select</label>
+            <label for="search-1-relation">Relation</label>
           </th>
           <td>
-            <select id="search-1-relation_select" name="search-1-relation_select">
+            <select id="search-1-relation" name="search-1-relation">
               <option value="greater">></option>
               <option value="less"><</option>
               <option value="equal">=</option>
@@ -63,10 +64,10 @@ $("ul").append(
       <tbody>
         <tr>
           <th>
-            <label for="search-2-data_select">Data Select</label>
+            <label for="search-2-attribute">Attribute</label>
           </th>
           <td>
-            <select id="search-2-data_select" name="search-2-data_select">
+            <select id="search-2-attribute" name="search-2-attribute">
               <option value="q_eps_growth_first">Latest Quarterly EPS Growth</option>
               <option value="q_eps_growth_next">1 Quarter Ago Quarterly EPS Growth</option>
               <option value="q_eps_growth_last">2 Quarters Ago Quarterly EPS Growth</option>
@@ -79,10 +80,10 @@ $("ul").append(
         </tr>
         <tr>
           <th>
-            <label for="search-2-relation_select">Relation Select</label>
+            <label for="search-2-relation">Relation</label>
           </th>
           <td>
-            <select id="search-2-relation_select" name="search-2-relation_select">
+            <select id="search-2-relation" name="search-2-relation">
               <option value="greater">></option>
               <option value="less"><</option>
               <option value="equal">=</option>
@@ -100,4 +101,3 @@ $("ul").append(
       </tbody>
     </table>
   </li>`)
-*/

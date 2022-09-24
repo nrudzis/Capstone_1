@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Saved Watchlists{% endblock %}
+{% block h1 %}Saved Watchlists{% endblock %}
+{% block content %}
+{% if watchlists %}
+<ul>
+  {% for watchlist in watchlists %}
+  <li>
+    <a href="#">{{ watchlist.title }}</a> - [Created: {{ watchlist.date_created }}, Updated: {{ watchlist.last_updated }}]
+    <button>X</button>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>You haven't created any watchlists.</p>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}
