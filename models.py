@@ -69,6 +69,8 @@ class Company(db.Model):
                 query = query.filter(getattr(Company, attr) == amt)
         return query.all()
 
+    company_watchlists = db.relationship('WatchlistCompany', backref='company', cascade='all, delete, delete-orphan', passive_deletes=True)
+
 
 class Watchlist(db.Model):
     """Watchlist model."""
@@ -80,6 +82,10 @@ class Watchlist(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.now, nullable=False)
     last_updated = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+
+    companies = db.relationship('Company', secondary='watchlists_companies', backref='watchlists')
+    watchlist_companies = db.relationship('WatchlistCompany', backref='watchlist', cascade='all, delete, delete-orphan', passive_deletes=True)
+
 
 class WatchlistCompany(db.Model):
     """WatchlistCompany model."""

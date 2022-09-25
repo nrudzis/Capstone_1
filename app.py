@@ -18,6 +18,11 @@ debug = DebugToolbarExtension(app)
 connect_db(app)
 #seed_companies(company_info)
 
+def add_companies_to_session(companies):
+    session['companies'] = {}
+    for company in companies:
+        session['companies'][company.ticker] = company.id
+
 
 @app.route('/')
 def redirect_to_home():
@@ -78,9 +83,7 @@ def show_results():
     form_values = list(request.args.to_dict().values())
     query_elements = [(form_values[i], form_values[i+1], form_values[i+2]) for i in range(0, len(form_values), 3)]
     companies = Company.search(query_elements)
-    session['companies'] = {}
-    for company in companies:
-        session['companies'][company.ticker] = company.id
+    add_companies_to_session(companies)
     return render_template('search-results.html', companies=companies, watchlist_form=watchlist_form)
 
 
@@ -100,3 +103,12 @@ def show_watchlists(username):
     user = User.query.filter_by(username=username).first_or_404()
     watchlists = user.watchlists
     return render_template('user-watchlists.html', watchlists=watchlists)
+
+@app.route('/users/<username>/watchlists/<int:watchlist_id>')
+def show_watchlist(username, watchlist_id):
+    """Display contents of a single watchlist."""
+
+    watchlist = Watchlist.query.get_or_404(watchlist_id)
+    session['companies'] = {}
+    add_companies_to_session(watchlist.companies)
+    return render_template('single-watchlist.html', watchlist=watchlist)

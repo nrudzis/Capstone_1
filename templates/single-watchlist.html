@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{{ watchlist.title }}{% endblock %}
+{% block h1 %}{{ watchlist.title }}{% endblock %}
+{% block content %}
+<ul>
+  {% for company in watchlist.companies %}
+  <li>
+    <a href="{{ url_for('show_company_info', ticker=company.ticker) }}">{{ company.name }} ({{ company.ticker }})</a>
+    <button>X</button>
+  </li>
+  {% endfor %}
+</ul>
+<button>Edit Watchlist Title</button>
+<button>Delete Watchlist</button>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

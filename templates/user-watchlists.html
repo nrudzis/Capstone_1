@@ -6,7 +6,7 @@
 <ul>
   {% for watchlist in watchlists %}
   <li>
-    <a href="#">{{ watchlist.title }}</a> - [Created: {{ watchlist.date_created }}, Updated: {{ watchlist.last_updated }}]
+    <a href="{{ url_for('show_watchlist', username=session['username'], watchlist_id=watchlist.id) }}">{{ watchlist.title }}</a> - [Created: {{ watchlist.date_created }}, Updated: {{ watchlist.last_updated }}]
     <button>X</button>
   </li>
   {% endfor %}
