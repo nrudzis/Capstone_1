@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Your Account{% endblock %}
+{% block h1 %}Your Account{% endblock %}
+{% block content %}
+<div id="user-info-section">
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Username:</strong> {{ user.username }}</p>
+  <button id="email-form-section-show">Change Email</button>
+  <button id="username-form-section-show">Change Username</button>
+  <button id="password-form-section-show">Change Password</button>
+  <form action="{{ url_for('delete_user', username=user.username) }}" method="post" style="display: inline">
+    <input type="submit" value="Delete Account">
+  </form>
+</div>
+<div id="email-form-section" style="display: none">
+  <h2>Change Email</h2>
+  <form action="{{ url_for('show_user_info', username=user.username) }}" method="post">
+    {{ change_email_form.hidden_tag()}}
+    {% for field in change_email_form if field.widget.input_type != 'hidden' %}
+    <p>
+      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
+      {{ field(class_="form-control") }}
+      {% for e in field.errors %}
+      <small class="form-error">{{ e }}</small>
+      {% endfor %}
+    </p>
+    {% endfor %}
+  </form>
+  <button id="email-form-section-hide">Cancel</button>
+</div>
+<div id="username-form-section" style="display: none">
+  <h2>Change Username</h2>
+  <form action="{{ url_for('show_user_info', username=user.username) }}" method="post">
+    {{ change_username_form.hidden_tag()}}
+    {% for field in change_username_form if field.widget.input_type != 'hidden' %}
+    <p>
+      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
+      {{ field(class_="form-control") }}
+      {% for e in field.errors %}
+      <small class="form-error">{{ e }}</small>
+      {% endfor %}
+    </p>
+    {% endfor %}
+  </form>
+  <button id="username-form-section-hide">Cancel</button>
+</div>
+<div id="password-form-section" style="display: none">
+  <h2>Change Password</h2>
+  <form action="{{ url_for('show_user_info', username=user.username) }}" method="post">
+    {{ change_password_form.hidden_tag()}}
+    {% for field in change_password_form if field.widget.input_type != 'hidden' %}
+    <p>
+      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
+      {{ field(class_="form-control") }}
+      {% for e in field.errors %}
+      <small class="form-error">{{ e }}</small>
+      {% endfor %}
+    </p>
+    {% endfor %}
+  </form>
+  <button id="password-form-section-hide">Cancel</button>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src={{ url_for('static', filename='userFormsToggle.js') }}></script>
+{% endblock %}

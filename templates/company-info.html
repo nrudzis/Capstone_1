@@ -31,6 +31,21 @@
   </tbody>
 </table>
 <p><strong>Institutional Holders:</strong> {{ company.institutional_holders }}</p>
+{% if watchlists %}
+<h2>Add to a watchlist?</h2>
+<form action="{{ url_for('show_company_info', ticker=company.ticker) }}" method="post">
+  {{ add_to_watchlist_form.hidden_tag()}}
+  {% for field in add_to_watchlist_form if field.widget.input_type != 'hidden' %}
+  <p>
+    {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
+    {{ field(class_="form-control") }}
+    {% for e in field.errors %}
+    <small>{{ e }}</small>
+    {% endfor %}
+  </p>
+  {% endfor %}
+</form>
+{% endif %}
 {% endblock %}
 {% block scripts %}
 {% endblock %}

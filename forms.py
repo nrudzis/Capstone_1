@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, EmailField, PasswordField, SubmitField, Form, SelectField, DecimalField, FieldList, FormField
+from wtforms import StringField, EmailField, PasswordField, SubmitField, Form, SelectField, DecimalField, FieldList, FormField, HiddenField
 
 
 class LoginForm(FlaskForm):
@@ -7,7 +7,7 @@ class LoginForm(FlaskForm):
 
     username = StringField('Username', validators=[])
     password = PasswordField('Password', validators=[])
-    login_submit = SubmitField('Log In')
+    login = SubmitField('Log In')
 
 
 class RegisterForm(FlaskForm):
@@ -17,9 +17,12 @@ class RegisterForm(FlaskForm):
     username = StringField('Create a username', validators=[])
     password = PasswordField('Create a password', validators=[])
     #verify_password = PasswordField('Verify password', validators=[])
-    register_submit = SubmitField('Register')
+    register = SubmitField('Register')
+
 
 class SearchSubform(Form):
+    """Subform to search for companies by multiple conditions."""
+
     attribute = SelectField(choices=[
             ('q_eps_growth_first', 'Latest Quarterly EPS Growth'),
             ('q_eps_growth_next', '1 Quarter Ago Quarterly EPS Growth'),
@@ -36,9 +39,53 @@ class SearchSubform(Form):
         ])
     amount = DecimalField()
 
+
 class SearchForm(FlaskForm):
-    search = FieldList(FormField(SearchSubform), min_entries=1)
+    """Main form to search for companies by multiple conditions."""
+
+    searchfield = FieldList(FormField(SearchSubform), min_entries=1)
+
+
+class SearchByTickerForm(FlaskForm):
+    """Form to search for a company by ticker."""
+
+    ticker = StringField('Ticker', validators=[])
+
 
 class WatchlistForm(FlaskForm):
+    """Form to create a new watchlist."""
+
+    company_ids = HiddenField()
     title = StringField('New Watchlist Title', validators=[])
-    watchlist_submit = SubmitField('Save')
+    save = SubmitField('Save')
+
+
+class AddToWatchlistForm(FlaskForm):
+    """Form to add a company to an existing watchlist."""
+
+    watchlist = SelectField(choices=[])
+    add = SubmitField('Add')
+
+
+class ChangeEmailForm(FlaskForm):
+    """Form to change a user's email."""
+
+    new_email = EmailField('New email', validators=[])
+    password = PasswordField('Password', validators=[])
+    change_email = SubmitField('Change Email')
+
+
+class ChangeUsernameForm(FlaskForm):
+    """Form to change a user's username."""
+
+    new_username = StringField('New username', validators=[])
+    password = PasswordField('Password', validators=[])
+    change_username = SubmitField('Change Username')
+
+
+class ChangePasswordForm(FlaskForm):
+    """Form to change a user's password."""
+
+    current_password = PasswordField('Current Password', validators=[])
+    new_password = PasswordField('New Password', validators=[])
+    change_password = SubmitField('Change Password')

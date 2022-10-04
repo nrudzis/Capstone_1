@@ -32,19 +32,41 @@
 -->
 
 <!-- FOR WORK ON WTFORMS FORM -->
-
-<form action="{{ url_for('show_results') }}" method="get">
-  {{ search_form.hidden_tag() }}
-  {% for subform in search_form if subform.widget.input_type != 'hidden' %}
-    {{ subform.label(class_="form-label") }}
-    {{ subform(class_="form-control") }}
-    {% for e in subform.errors %}
-    <small>{{ e }}</small>
+<div id="multiple-search-form-section">
+  <h2>Search By Multiple</h2>
+  <form action="{{ url_for('show_results') }}" id="multiple-search-form" method="get">
+    {{ search_form.hidden_tag() }}
+    <ul>
+    {% for subform in search_form if subform.widget.input_type != 'hidden' %}
+      <li>
+        {% for field in subform %}
+          {{ field(class_="form-control") }}
+        {% endfor %}
+        {% for e in subform.errors %}
+        <small>{{ e }}</small>
+        {% endfor %}
+      </li>
     {% endfor %}
-  {% endfor %}
-  <input type="submit">
-</form>
-
+    </ul>
+    <input type="submit" value="Search">
+  </form>
+  <button id="ticker-search-form-section-show">Ticker Search</button>
+</div>
+<div id="ticker-search-form-section" style="display: none">
+  <h2>Search By Ticker</h2>
+  <form action="{{ url_for('show_results') }}" id="ticker-search-form" method="get">
+    {{ search_by_ticker_form.hidden_tag()}}
+    {% for field in search_by_ticker_form if field.widget.input_type != 'hidden' %}
+      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
+      {{ field(class_="form-control") }}
+      {% for e in field.errors %}
+      <small>{{ e }}</small>
+      {% endfor %}
+    {% endfor %}
+    <input type="submit" value="Search">
+  </form>
+  <button id="multiple-search-form-section-show">Multiple Search</button>
+</div>
 {% endblock %}
 {% block scripts %}
 <script src={{ url_for('static', filename='newCondition.js') }}></script>

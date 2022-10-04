@@ -12,6 +12,7 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
+
 class User(db.Model):
     """User model."""
 
@@ -27,9 +28,9 @@ class User(db.Model):
     @classmethod
     def authenticate(cls, username, pwd):
         """Return user if exists, else return false."""
-        u = User.query.filter_by(username=username).first()
-        if u and bcrypt.check_password_hash(u.password, pwd):
-            return u
+        user = User.query.filter_by(username=username).first()
+        if user and bcrypt.check_password_hash(user.password, pwd):
+            return user
         else:
             return False
 
@@ -39,6 +40,33 @@ class User(db.Model):
         hashed = bcrypt.generate_password_hash(pwd)
         hashed_utf8 = hashed.decode('utf8')
         return cls(email=email, username=username, password=hashed_utf8)
+
+    @classmethod
+    def change_email(cls, username, password, new_email):
+        """Update user's email and return user."""
+        user = User.authenticate(username, password)
+        if user: 
+            user.email = new_email
+        return user
+
+    @classmethod
+    def change_username(cls, current_username, password, new_username):
+        """Update user's username and return user."""
+        user = User.authenticate(current_username, password)
+        if user:
+            user.username = new_username
+        return user
+
+    @classmethod
+    def change_password(cls, username, current_password, new_password):
+        """Update user's password and return user."""
+        hashed = bcrypt.generate_password_hash(new_password)
+        hashed_utf8 = hashed.decode('utf8')
+        user = User.authenticate(username, current_password)
+        if user:
+            user.password = hashed_utf8
+        return user
+
 
 class Company(db.Model):
     """Company model."""
@@ -68,6 +96,10 @@ class Company(db.Model):
             else:
                 query = query.filter(getattr(Company, attr) == amt)
         return query.all()
+
+    @classmethod
+    def search_by_ticker(cls, ticker):
+        return Company.query.filter_by(ticker=ticker).all()
 
     company_watchlists = db.relationship('WatchlistCompany', backref='company', cascade='all, delete, delete-orphan', passive_deletes=True)
 

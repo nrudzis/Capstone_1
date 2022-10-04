@@ -5,6 +5,42 @@
   <title>Stocks - {% block title %}{% endblock %}</title>
 </head>
 <body>
+  <nav>
+    <ul>
+      {% if 'username' in session %}
+      <li style="display: inline">
+        <a href="{{ url_for('show_home') }}">Home</a>
+      </li>
+      <li style="display: inline">
+        <a href="{{ url_for('show_watchlists', username=session['username']) }}">Watchlists</a>
+      </li>
+      <li style="display: inline">
+        <a href="{{ url_for('show_user_info', username=session['username']) }}"><strong>{{ session['username'] }}</strong></a>
+      </li>
+      <li style="display: inline">
+        <form action="{{ url_for('logout_user', username=session['username']) }}" method="post" style="display: inline">
+          <input type="submit" value="Log Out">
+        </form>
+      </li>
+      {% else %}
+      <li style="display: inline">
+        <a href="{{ url_for('show_home') }}">Log In</a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul class="flashes">
+    {% for message in messages %}
+    <li>
+      {{ message }}
+      <button>X</button>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
   <h1>{% block h1 %}Stocks - {% endblock %}</h1>
   {% block content %}
   {% endblock %}

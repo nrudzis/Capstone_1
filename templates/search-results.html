@@ -17,7 +17,7 @@
   {% endif %}
   <a href="{{ url_for('show_home') }}">New Search</a>
 </div>
-<div id="watchlist-form-section">
+<div id="watchlist-form-section" style="display: none">
   <h1>Save Watchlist</h1>
   <form action="{{ url_for('show_results') }}" method="post">
     {{ watchlist_form.hidden_tag()}}
