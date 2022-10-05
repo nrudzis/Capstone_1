@@ -1,112 +1,53 @@
-/*
-// FOR WORK ON REGULAR MULTIPLE SEARCH FORM
-$(document).on("click", ".remove-condition", function() {
-  $(this).parent().remove();
-});
-
-$("#new-condition").click(function() {
-  const $newConditionSelect = $("form").children().first().clone();
-  $newConditionSelect.insertBefore($("#new-condition"));
-  if($("form div").length > 17) {
-    $("#new-condition").prop("disabled", true);
-  }
-});
-*/
-
-// FOR WORK ON WTFORMS MULTIPLE SEARCH FORM
-$("#multiple-search-form > ul > li").append(
-  `<li>
-    <table id="searchfield-1">
-      <tbody>
-        <tr>
-          <th>
-            <label for="searchfield-1-attribute">Attribute</label>
-          </th>
-          <td>
-            <select id="searchfield-1-attribute" name="searchfield-1-attribute">
-              <option value="q_eps_growth_first">Latest Quarterly EPS Growth</option>
-              <option value="q_eps_growth_next">1 Quarter Ago Quarterly EPS Growth</option>
-              <option value="q_eps_growth_last">2 Quarters Ago Quarterly EPS Growth</option>
-              <option value="a_eps_growth_first">Latest Annual EPS Growth</option>
-              <option value="a_eps_growth_next">1 Year Ago Annual EPS Growth</option>
-              <option value="a_eps_growth_last">2 Years Ago Annual EPS Growth</option>
-              <option value="institutional_holders">Institutional Holders</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <label for="searchfield-1-relation">Relation</label>
-          </th>
-          <td>
-            <select id="searchfield-1-relation" name="searchfield-1-relation">
-              <option value="greater">></option>
-              <option value="less"><</option>
-              <option value="equal">=</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <label for="searchfield-1-amount">Amount</label>
-          </th>
-          <td>
-            <input id="searchfield-1-amount" name="searchfield-1-amount" step="any" type="number" value="">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li>
-    <table id="searchfield-2">
-      <tbody>
-        <tr>
-          <th>
-            <label for="searchfield-2-attribute">Attribute</label>
-          </th>
-          <td>
-            <select id="searchfield-2-attribute" name="searchfield-2-attribute">
-              <option value="q_eps_growth_first">Latest Quarterly EPS Growth</option>
-              <option value="q_eps_growth_next">1 Quarter Ago Quarterly EPS Growth</option>
-              <option value="q_eps_growth_last">2 Quarters Ago Quarterly EPS Growth</option>
-              <option value="a_eps_growth_first">Latest Annual EPS Growth</option>
-              <option value="a_eps_growth_next">1 Year Ago Annual EPS Growth</option>
-              <option value="a_eps_growth_last">2 Years Ago Annual EPS Growth</option>
-              <option value="institutional_holders">Institutional Holders</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <label for="searchfield-2-relation">Relation</label>
-          </th>
-          <td>
-            <select id="searchfield-2-relation" name="searchfield-2-relation">
-              <option value="greater">></option>
-              <option value="less"><</option>
-              <option value="equal">=</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <label for="searchfield-2-amount">Amount</label>
-          </th>
-          <td>
-            <input id="searchfield-2-amount" name="searchfield-2-amount" step="any" type="number" value="">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </li>`)
-
-
+// TICKER SEARCH FORM SHOW/HIDE
 $('#ticker-search-form-section-show').click(() => {
   $('#multiple-search-form-section').hide();
   $('#ticker-search-form-section').show();
 });
 
+// MULTIPLE SEARCH FORM SHOW/HIDE
 $('#multiple-search-form-section-show').click(() => {
   $('#ticker-search-form-section').hide();
   $('#multiple-search-form-section').show();
 });
+
+// MULTIPLE SEARCH FORM ADD/REMOVE SEARCHFIELDS
+const $searchfields = $('.searchfields');
+
+function reindex() {
+  let $lis = $searchfields.children('li');
+  $lis.each(function(i) {
+    let $reindexed = $(this).html().replace(/searchfield-[0-9]+/g, `searchfield-${i}`);
+    $(this).html($reindexed);
+  });
+}
+
+function appendRemoveBtn() {
+  let $lis = $searchfields.children('li');
+  if ($lis.length===2) {
+    $lis.each(function() {
+      $(this).append(`<button type="button" class="remove-searchfield-btn">X</button>`);
+    });
+  }
+}
+
+function addNewSearchfield() {
+  let $newSearchfield = $searchfields.children().first().clone();
+  $searchfields.append($newSearchfield);
+  appendRemoveBtn();
+  reindex();
+}
+
+$('#add-searchfield-btn')
+  .on('click', () => {
+    addNewSearchfield();
+  });
+
+$(document)
+  .on('click', '.remove-searchfield-btn', function() {
+    $(this).parent().remove();
+    let $lis = $searchfields.children('li');
+    if ($lis.length<2) {
+      $('.remove-searchfield-btn').remove();
+    }
+    reindex();
+  });

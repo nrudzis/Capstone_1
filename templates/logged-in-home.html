@@ -2,41 +2,11 @@
 {% block title %}Home{% endblock %}
 {% block h1 %}Home{% endblock %}
 {% block content %}
-
-<!-- FOR WORK ON REGULAR FORM -->
-
-<!--
-<form action="">
-  <div>
-    <select>
-      <option></option>
-      <option>latest quarterly eps growth</option>
-      <option>1 quarter ago eps growth</option>
-      <option>2 quarters ago eps growth</option>
-      <option>latest yearly eps growth</option>
-      <option>1 year ago eps growth</option>
-      <option>2 years ago eps growth</option>
-    </select>
-    <select>
-      <option></option>
-      <option>></option>
-      <option><</option>
-      <option>=</option>
-    </select>
-    <input type="number">
-    <button type="button" class="remove-condition">x</button>
-  </div>
-  <button type="button" id="new-condition">add another condition</button>
-  <input type="submit" value="submit">
-</form>
--->
-
-<!-- FOR WORK ON WTFORMS FORM -->
 <div id="multiple-search-form-section">
   <h2>Search By Multiple</h2>
   <form action="{{ url_for('show_results') }}" id="multiple-search-form" method="get">
     {{ search_form.hidden_tag() }}
-    <ul>
+    <ul class="searchfields">
     {% for subform in search_form if subform.widget.input_type != 'hidden' %}
       <li>
         {% for field in subform %}
@@ -48,6 +18,7 @@
       </li>
     {% endfor %}
     </ul>
+    <button type="button" id="add-searchfield-btn">+</button>
     <input type="submit" value="Search">
   </form>
   <button id="ticker-search-form-section-show">Ticker Search</button>
