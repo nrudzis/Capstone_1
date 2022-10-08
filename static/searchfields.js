@@ -1,16 +1,4 @@
-// TICKER SEARCH FORM SHOW/HIDE
-$('#ticker-search-form-section-show').click(() => {
-  $('#multiple-search-form-section').hide();
-  $('#ticker-search-form-section').show();
-});
-
-// MULTIPLE SEARCH FORM SHOW/HIDE
-$('#multiple-search-form-section-show').click(() => {
-  $('#ticker-search-form-section').hide();
-  $('#multiple-search-form-section').show();
-});
-
-// MULTIPLE SEARCH FORM ADD/REMOVE SEARCHFIELDS
+//MULTIPLE SEARCH FORM ADD/REMOVE SEARCHFIELDS
 const $searchfields = $('.searchfields');
 
 function reindex() {

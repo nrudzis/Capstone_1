@@ -67,7 +67,7 @@ def show_home():
                 return redirect(url_for('show_home'))
             else:
                 login_form.username.errors = ['Username or password is invalid.']
-        if  register_form.register.data and register_form.validate_on_submit():
+        if register_form.register.data and register_form.validate_on_submit():
             email = register_form.email.data
             username = register_form.username.data
             password = register_form.password.data
@@ -162,7 +162,7 @@ def show_user_info(username):
             return redirect(url_for('show_user_info', username=username))
         else:
             change_email_form.password.errors = pwd_error_msg
-    if  change_username_form.change_username.data and change_username_form.validate_on_submit():
+    if change_username_form.change_username.data and change_username_form.validate_on_submit():
         password = change_username_form.password.data
         new_username = change_username_form.new_username.data
         user = User.change_username(username, password, new_username)
@@ -174,7 +174,7 @@ def show_user_info(username):
             return redirect(url_for('show_user_info', username=user.username))
         else:
             change_username_form.password.errors = pwd_error_msg
-    if  change_password_form.change_password.data and change_password_form.validate_on_submit():
+    if change_password_form.change_password.data and change_password_form.validate_on_submit():
         current_password = change_password_form.current_password.data
         new_password = change_password_form.new_password.data
         user = User.change_password(username, current_password, new_password)

@@ -2,7 +2,7 @@ const $formSections = $('[id$="-form-section"]');
 const $showFormSectionBtns = $('[id$="-form-section-show"]');
 const $hideFormSectionBtns = $('[id$="-form-section-hide"]');
 
-//LOGIN AND REGISTER FORMS SHOW/HIDE
+//FORMS SHOW/HIDE
 $showFormSectionBtns.click(function(e) {
   $formSections.hide();
   $showFormSectionBtns.show();
