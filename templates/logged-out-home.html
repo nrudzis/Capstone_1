@@ -2,7 +2,7 @@
 {% block title %}Home{% endblock %}
 {% block h1 %}Home{% endblock %}
 {% block content %}
-<div id="login-section">
+<div id="login-form-section">
   <form action="{{ url_for('show_home') }}" method="post">
     {{ login_form.hidden_tag()}}
     {% for field in login_form if field.widget.input_type != 'hidden' %}
@@ -10,29 +10,29 @@
       {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
       {{ field(class_="form-control") }}
       {% for e in field.errors %}
-      <small>{{ e }}</small>
+      <small class="form-error">{{ e }}</small>
       {% endfor %}
     </p>
     {% endfor %}
   </form>
-  <p>Don't have an account? Register <button id="register-section-show">here</button>!</p>
+  <p>Don't have an account? Register <button id="register-form-section-show">here</button>!</p>
 </div>
-<div id="register-section">
+<div id="register-form-section" style="display: none">
   <form action="{{ url_for('show_home') }}" method="post">
-    {{ register_form.hidden_tag()}}
+    {{ register_form.hidden_tag() }}
     {% for field in register_form if field.widget.input_type != 'hidden' %}
     <p>
       {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
       {{ field(class_="form-control") }}
       {% for e in field.errors %}
-      <small>{{ e }}</small>
+      <small class="form-error">{{ e }}</small>
       {% endfor %}
     </p>
     {% endfor %}
   </form>
-  <p>Already have an account? Log in <button id="login-section-show">here</button>!</p>
+  <p>Already have an account? Log in <button id="login-form-section-show">here</button>!</p>
 </div>
 {% endblock %}
 {% block scripts %}
-<script src={{ url_for('static', filename='loginFormToggle.js') }}></script>
+<script src={{ url_for('static', filename='formsToggle.js') }}></script>
 {% endblock %}

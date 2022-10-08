@@ -57,7 +57,7 @@ def show_home():
     if 'username' not in session:
         login_form = LoginForm(prefix='login')
         register_form = RegisterForm(prefix='register')
-        if login_form.validate_on_submit() and login_form.login.data:
+        if login_form.login.data and login_form.validate_on_submit():
             username = login_form.username.data
             password = login_form.password.data
             user = User.authenticate(username, password)
@@ -67,7 +67,7 @@ def show_home():
                 return redirect(url_for('show_home'))
             else:
                 login_form.username.errors = ['Username or password is invalid.']
-        if register_form.validate_on_submit() and register_form.register.data:
+        if  register_form.register.data and register_form.validate_on_submit():
             email = register_form.email.data
             username = register_form.username.data
             password = register_form.password.data
@@ -134,7 +134,7 @@ def show_company_info(ticker):
             db.session.commit()
         except IntegrityError:
             db.session.rollback()
-            flash(f"Error: {company.name} already exists in '{watchlist.title}'!")
+            flash(f"Error: {company.name} already in '{watchlist.title}'!")
             return redirect(url_for('show_company_info', ticker=ticker))
         flash(f"{company.name} ({company.ticker}) added to '{watchlist.title}'!")
         return redirect(url_for('show_watchlist', username=user.username, watchlist_id=watchlist_id))
@@ -151,7 +151,7 @@ def show_user_info(username):
     change_username_form = ChangeUsernameForm(prefix='change-username')
     change_password_form = ChangePasswordForm(prefix='change-password')
     pwd_error_msg = ['Invalid password. Try again.']
-    if change_email_form.validate_on_submit() and change_email_form.change_email.data:
+    if change_email_form.change_email.data and change_email_form.validate_on_submit():
         password = change_email_form.password.data
         new_email = change_email_form.new_email.data
         user = User.change_email(username, password, new_email)
@@ -162,7 +162,7 @@ def show_user_info(username):
             return redirect(url_for('show_user_info', username=username))
         else:
             change_email_form.password.errors = pwd_error_msg
-    if change_username_form.validate_on_submit() and change_username_form.change_username.data:
+    if  change_username_form.change_username.data and change_username_form.validate_on_submit():
         password = change_username_form.password.data
         new_username = change_username_form.new_username.data
         user = User.change_username(username, password, new_username)
@@ -174,7 +174,7 @@ def show_user_info(username):
             return redirect(url_for('show_user_info', username=user.username))
         else:
             change_username_form.password.errors = pwd_error_msg
-    if change_password_form.validate_on_submit() and change_password_form.change_password.data:
+    if  change_password_form.change_password.data and change_password_form.validate_on_submit():
         current_password = change_password_form.current_password.data
         new_password = change_password_form.new_password.data
         user = User.change_password(username, current_password, new_password)
