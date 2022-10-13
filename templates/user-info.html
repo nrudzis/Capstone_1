@@ -18,8 +18,7 @@
     {{ change_email_form.hidden_tag()}}
     {% for field in change_email_form if field.widget.input_type != 'hidden' %}
     <p>
-      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
-      {{ field(class_="form-control") }}
+      {{ field }}
       {% for e in field.errors %}
       <small class="form-error">{{ e }}</small>
       {% endfor %}
@@ -34,8 +33,7 @@
     {{ change_username_form.hidden_tag()}}
     {% for field in change_username_form if field.widget.input_type != 'hidden' %}
     <p>
-      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
-      {{ field(class_="form-control") }}
+      {{ field }}
       {% for e in field.errors %}
       <small class="form-error">{{ e }}</small>
       {% endfor %}
@@ -50,8 +48,7 @@
     {{ change_password_form.hidden_tag()}}
     {% for field in change_password_form if field.widget.input_type != 'hidden' %}
     <p>
-      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
-      {{ field(class_="form-control") }}
+      {{ field }}
       {% for e in field.errors %}
       <small class="form-error">{{ e }}</small>
       {% endfor %}

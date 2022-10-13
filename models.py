@@ -111,6 +111,7 @@ class Watchlist(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), default=f'{ datetime.now() } Watchlist', nullable=False)
+    description = db.Column(db.String(500))
     date_created = db.Column(db.DateTime, default=datetime.now, nullable=False)
     last_updated = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)

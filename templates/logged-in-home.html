@@ -7,16 +7,18 @@
   <form action="{{ url_for('show_results') }}" id="multiple-search-form" method="get">
     {{ search_form.hidden_tag() }}
     <ul class="searchfields">
-    {% for subform in search_form if subform.widget.input_type != 'hidden' %}
+      {% for subform in search_form %}
       <li>
-        {% for field in subform %}
-          {{ field(class_="form-control") }}
-        {% endfor %}
-        {% for e in subform.errors %}
+        {% for searchfield in subform %}
+        {% for field in searchfield %}
+          {{ field }}
+        {% for e in field.errors %}
         <small>{{ e }}</small>
         {% endfor %}
+        {% endfor %}
+        {% endfor %}
       </li>
-    {% endfor %}
+      {% endfor %}
     </ul>
     <button type="button" id="add-searchfield-btn">+</button>
     <input type="submit" value="Search">
@@ -28,8 +30,7 @@
   <form action="{{ url_for('show_results') }}" id="ticker-search-form" method="get">
     {{ search_by_ticker_form.hidden_tag()}}
     {% for field in search_by_ticker_form if field.widget.input_type != 'hidden' %}
-      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
-      {{ field(class_="form-control") }}
+      {{ field }}
       {% for e in field.errors %}
       <small>{{ e }}</small>
       {% endfor %}

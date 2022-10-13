@@ -92,8 +92,9 @@ def show_results():
     watchlist_form = WatchlistForm()
     if watchlist_form.validate_on_submit():
         title = watchlist_form.title.data
+        description = watchlist_form.description.data
         user = User.query.filter_by(username=session['username']).first_or_404()
-        new_watchlist = Watchlist(title=title, user_id=user.id)
+        new_watchlist = Watchlist(title=title, description=description, user_id=user.id)
         db.session.add(new_watchlist)
         db.session.flush()
         company_ids = [int(company_id) for company_id in watchlist_form.company_ids.data.split(',')]
@@ -117,6 +118,7 @@ def show_results():
 
 
 @app.route('/companies/<ticker>', methods=['GET', 'POST'])
+@login_required
 def show_company_info(ticker):
     """Display company info."""
 
@@ -224,7 +226,8 @@ def show_watchlists(username):
     watchlist_form = WatchlistForm()
     if watchlist_form.validate_on_submit():
         title = watchlist_form.title.data
-        new_watchlist = Watchlist(title=title, user_id=user.id)
+        description = watchlist_form.description.data
+        new_watchlist = Watchlist(title=title, description=description, user_id=user.id)
         db.session.add(new_watchlist)
         db.session.commit()
         flash(f"'{new_watchlist.title}' created!")
@@ -244,8 +247,9 @@ def show_watchlist(username, watchlist_id):
     watchlist_form = WatchlistForm(obj=watchlist)
     if watchlist_form.validate_on_submit():
         watchlist.title = watchlist_form.title.data
+        watchlist.description = watchlist_form.description.data
         db.session.commit()
-        flash('Watchlist title changed!')
+        flash('Watchlist changes saved!')
         return redirect(url_for('show_watchlist', username=username, watchlist_id=watchlist_id))
     return render_template('single-watchlist.html', watchlist=watchlist, watchlist_form=watchlist_form)
 

@@ -2,7 +2,14 @@
 {% block title %}{{ watchlist.title }}{% endblock %}
 {% block h1 %}{{ watchlist.title }}{% endblock %}
 {% block content %}
+<p><em>Created:</em> {{ watchlist.date_created }}, <em>Updated:</em> {{ watchlist.last_updated }}</p>
+{% if watchlist.description %}
+<h2>Description</h2>
+<p>{{ watchlist.description }}</p>
+{% endif %}
 <div id="watchlist-companies-section">
+  <h2>Companies</h2>
+  {% if watchlist.companies %}
   <ul>
     {% for company in watchlist.companies %}
     <li>
@@ -13,18 +20,20 @@
     </li>
     {% endfor %}
   </ul>
-  <button id="watchlist-form-section-show">Change Title</button>
-  <form action="{{ url_for('delete_watchlist', username=session['username'], watchlist_id=watchlist.id) }}" method="post" style="display: inline">
-    <input type="submit" value="Delete Watchlist">
-  </form>
+  {% else %}
+  <p>You haven't saved any companies in this list.</p>
+  {% endif %}
 </div>
+<button id="watchlist-form-section-show" style="display: inline">Edit Watchlist</button>
+<form action="{{ url_for('delete_watchlist', username=session['username'], watchlist_id=watchlist.id) }}" method="post" style="display: inline">
+  <input type="submit" value="Delete Watchlist">
+</form>
 <div id="watchlist-form-section" style="display: none">
-  <h1>Change Watchlist Title</h1>
+  <h2>Edit Watchlist</h2>
   <form action="{{ url_for('show_watchlist', username=session['username'], watchlist_id=watchlist.id) }}" method="post">
     {{ watchlist_form.hidden_tag()}}
     {% for field in watchlist_form if field.widget.input_type != 'hidden' %}
     <p>
-      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
       {{ field(class_="form-control") }}
       {% for e in field.errors %}
       <small>{{ e }}</small>

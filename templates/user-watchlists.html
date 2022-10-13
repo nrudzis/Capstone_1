@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Saved Watchlists{% endblock %}
-{% block h1 %}Saved Watchlists{% endblock %}
+{% block h1 %}Watchlists{% endblock %}
 {% block content %}
 <div id="user-watchlists-section">
   {% if watchlists %}
@@ -20,13 +20,12 @@
   <button id="watchlist-form-section-show">Create a New Watchlist</button>
 </div>
 <div id="watchlist-form-section" style="display: none">
-  <h1>New Watchlist</h1>
+  <h2>New Watchlist</h2>
   <form action="" method="post">
     {{ watchlist_form.hidden_tag()}}
     {% for field in watchlist_form if field.widget.input_type != 'hidden' %}
     <p>
-      {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
-      {{ field(class_="form-control") }}
+      {{ field }}
       {% for e in field.errors %}
       <small>{{ e }}</small>
       {% endfor %}
