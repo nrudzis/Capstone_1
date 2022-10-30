@@ -348,14 +348,14 @@ for ticker in tickers:
 
         #if there's a problem with the annual data, move on to the next ticker
         if not a_eps_list:
-   continue
+            continue
 
         #get list with quarterly data
         q_eps_list = get_q_eps_list(ticker)
 
         #if there's a problem with the quarterly data, move on to the next ticker
         if not q_eps_list:
-   continue
+            continue
 
         #store all company info in a dictionary
         company_dict = make_company_dict(ticker, a_eps_list, q_eps_list)
@@ -365,11 +365,11 @@ for ticker in tickers:
 
         #if it is in the database, update it
         if company:
-   update_company(company, company_dict)
+            update_company(company, company_dict)
 
         #if not, add it
         else:
-   add_new_company(company_dict)
+            add_new_company(company_dict)
 
     #for anything else unexpected, move on to the next ticker
     except:
