@@ -12,7 +12,7 @@ $showFormSectionBtns.click(function(e) {
   $('#' + btnId).hide();
 });
 
-$hideFormSectionBtns.click(function(e) {
+$hideFormSectionBtns.click(function() {
   $(this).parent().hide();
   $showFormSectionBtns.each(function() {
     $(this).show();

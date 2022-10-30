@@ -14,7 +14,7 @@ function reindex() {
     $(this).children('select').each(function(i) {
       $(this).val(selectedVals[i]);
     });
-    $(this).children('input').val(inputVal).change();
+    $(this).children('input').val(inputVal);
   });
 }
 

@@ -25,6 +25,7 @@ def login_required(f):
     @wraps(f)
     def wrapper(**kwargs):
         """Retrict access to logged in users."""
+
         if 'username' not in session:
             flash('You need to log in to do that!')
             return redirect(url_for('show_home'))
@@ -35,6 +36,7 @@ def check_username(f):
     @wraps(f)
     def wrapper(username, **kwargs):
         """Prevent users from accessing other users' views."""
+
         if username != session['username']:
             flash('Action not permitted!')
             return redirect(url_for('show_home'))
