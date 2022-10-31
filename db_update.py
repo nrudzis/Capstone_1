@@ -127,9 +127,12 @@ def validate_first_to_third_list(q_eps_list):
 
     #if there are not three items after each (), or if any of the three is also a (), return False
     for i, q_eps in enumerate(q_eps_list):
-        if q_eps_list[i] == () and len(q_eps_list) >= i+4:
-            if q_eps_list[i+1] == () or q_eps_list[i+2] == () or q_eps_list[i+3] == ():
+        if q_eps_list[i] == ():
+            if len(q_eps_list) < i+4:
                 return False
+            else:
+                if q_eps_list[i+1] == () or q_eps_list[i+2] == () or q_eps_list[i+3] == ():
+                    return False
     return True
 
 
