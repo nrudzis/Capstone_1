@@ -43,7 +43,6 @@ def get_tickers():
            'isActivelyTrading': 'true',
            'Country': 'US',
            'exchange': 'nasdaq',
-           'limit': '5',
            'apikey': fmp_key
     })
     data = resp.json()
@@ -51,7 +50,7 @@ def get_tickers():
 
 
 def get_a_eps_list(ticker):
-    """Returns list of tuples with annual filing date and and annual eps, or False if less then four years of data."""
+    """Returns list of tuples with annual filing date and annual eps, or False if less then four years of data."""
 
     check_fmp_calls()
     resp = requests.get(f'https://financialmodelingprep.com/api/v3/income-statement/{ticker}',
@@ -128,8 +127,9 @@ def validate_first_to_third_list(q_eps_list):
 
     #if there are not three items after each (), or if any of the three is also a (), return False
     for i, q_eps in enumerate(q_eps_list):
-        if q_eps_list[i] == () and len(q_eps_list) >= i+3 and q_eps_list[i+1] == () or q_eps_list[i+2] == () or q_eps_list[i+3] == ():
-            return False
+        if q_eps_list[i] == () and len(q_eps_list) >= i+4:
+            if q_eps_list[i+1] == () or q_eps_list[i+2] == () or q_eps_list[i+3] == ():
+                return False
     return True
 
 
@@ -190,9 +190,9 @@ def adjust_if_split(split_data, q_eps_list):
     for split_date, split_factor in split_data:
         for i, q_eps in enumerate(q_eps_list):
             if len(q_eps) == 2 and datetime.strptime(split_date, '%Y-%m-%d') > datetime.strptime(q_eps[0], '%Y-%m-%d'):
-        q_eps_list[i] = list(q_eps_list[i])
-        q_eps_list[i][1] = q_eps_list[i][1] * split_factor
-        q_eps_list[i] = tuple(q_eps_list[i])
+                q_eps_list[i] = list(q_eps_list[i])
+                q_eps_list[i][1] = q_eps_list[i][1] * split_factor
+                q_eps_list[i] = tuple(q_eps_list[i])
     return q_eps_list
 
 
@@ -277,29 +277,29 @@ def make_company_dict(ticker, a_eps_list, q_eps_list):
     company_dict['name'] = company_details['name']
     company_dict['description'] = company_details['description']
     company_dict['q_eps_growth_first'] = rate_of_change(
-            q_eps_list[0][1],
-            q_eps_list[4][1]
-        )
+        q_eps_list[0][1],
+        q_eps_list[4][1]
+    )
     company_dict['q_eps_growth_next'] = rate_of_change(
-            q_eps_list[1][1],
-            q_eps_list[5][1]
-        )
+        q_eps_list[1][1],
+        q_eps_list[5][1]
+    )
     company_dict['q_eps_growth_last'] = rate_of_change(
-            q_eps_list[2][1],
-            q_eps_list[6][1]
-        )
+        q_eps_list[2][1],
+        q_eps_list[6][1]
+    )
     company_dict['a_eps_growth_first'] = rate_of_change(
-            a_eps_list[0][1],
-            a_eps_list[1][1]
-        )
+        a_eps_list[0][1],
+        a_eps_list[1][1]
+    )
     company_dict['a_eps_growth_next'] = rate_of_change(
-            a_eps_list[1][1],
-            a_eps_list[2][1]
-        )
+        a_eps_list[1][1],
+        a_eps_list[2][1]
+    )
     company_dict['a_eps_growth_last'] = rate_of_change(
-            a_eps_list[2][1],
-            a_eps_list[3][1],
-        )
+        a_eps_list[2][1],
+        a_eps_list[3][1],
+    )
     company_dict['institutional_holders'] = institutional_holders
     return company_dict
 
@@ -323,17 +323,17 @@ def add_new_company(company_dict):
     """Creates a new company and adds it to the database."""
 
     company = Company(
-   ticker=company_dict['ticker'],
-   name=company_dict['name'],
-   description=company_dict['description'],
-   q_eps_growth_first=company_dict['q_eps_growth_first'],
-   q_eps_growth_next=company_dict['q_eps_growth_next'],
-   q_eps_growth_last=company_dict['q_eps_growth_last'],
-   a_eps_growth_first=company_dict['a_eps_growth_first'],
-   a_eps_growth_next=company_dict['a_eps_growth_next'],
-   a_eps_growth_last=company_dict['a_eps_growth_last'],
-   institutional_holders=company_dict['institutional_holders']
-        )
+        ticker=company_dict['ticker'],
+        name=company_dict['name'],
+        description=company_dict['description'],
+        q_eps_growth_first=company_dict['q_eps_growth_first'],
+        q_eps_growth_next=company_dict['q_eps_growth_next'],
+        q_eps_growth_last=company_dict['q_eps_growth_last'],
+        a_eps_growth_first=company_dict['a_eps_growth_first'],
+        a_eps_growth_next=company_dict['a_eps_growth_next'],
+        a_eps_growth_last=company_dict['a_eps_growth_last'],
+        institutional_holders=company_dict['institutional_holders']
+    )
     db.session.add(company)
     db.session.commit()
 
