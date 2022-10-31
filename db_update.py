@@ -19,7 +19,7 @@ def check_fmp_calls():
     fmp_calls += 1
     if fmp_calls == 250:
         fmp_calls = 0
-        sleep(86,400)
+        sleep(86400)
 
 
 def check_p_calls():
@@ -341,9 +341,21 @@ def add_new_company(company_dict):
     db.session.commit()
 
 
-#get list with all tickers
-tickers = get_tickers()
-for ticker in tickers:
+#get list with all tickers from the API
+api_tickers = get_tickers()
+
+#get list with all tickers in the database
+db_tickers = [company.ticker for company in Company.query.all()]
+
+#if a company in the database isn't in the list from the API, remove it from the database
+for ticker in db_tickers:
+    if ticker not in api_tickers:
+        company = Company.query.filter_by(ticker=ticker).first()
+        db.session.delete(company)
+        db.session.commit()
+
+#fill/update the database
+for ticker in api_tickers:
     try:
 
         #get list with annual data
