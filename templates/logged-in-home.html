@@ -2,42 +2,44 @@
 {% block title %}Home{% endblock %}
 {% block h1 %}Home{% endblock %}
 {% block content %}
-<div id="multiple-search-form-section">
-  <h2>Search By Multiple</h2>
-  <form action="{{ url_for('show_results') }}" id="multiple-search-form" method="get">
-    {{ search_form.hidden_tag() }}
-    <ul class="searchfields">
-      {% for subform in search_form %}
-      <li>
-        {% for searchfield in subform %}
-        {% for field in searchfield %}
-          {{ field }}
+<div class="col col-xs-auto col-xl-10 col-xxl-8 p-5">
+  <div id="multiple-search-form-section">
+    <h2>Search By Multiple</h2>
+    <form action="{{ url_for('show_results') }}" id="multiple-search-form" method="get">
+      {{ search_form.hidden_tag() }}
+      <ul class="searchfields">
+        {% for subform in search_form %}
+        <li>
+          {% for searchfield in subform %}
+          {% for field in searchfield %}
+            {{ field }}
+          {% for e in field.errors %}
+          <small>{{ e }}</small>
+          {% endfor %}
+          {% endfor %}
+          {% endfor %}
+        </li>
+        {% endfor %}
+      </ul>
+      <button type="button" id="add-searchfield-btn">+</button>
+      <input type="submit" value="Search">
+    </form>
+    <button id="ticker-search-form-section-show">Ticker Search</button>
+  </div>
+  <div id="ticker-search-form-section" style="display: none">
+    <h2>Search By Ticker</h2>
+    <form action="{{ url_for('show_results') }}" id="ticker-search-form" method="get">
+      {{ search_by_ticker_form.hidden_tag()}}
+      {% for field in search_by_ticker_form if field.widget.input_type != 'hidden' %}
+        {{ field }}
         {% for e in field.errors %}
         <small>{{ e }}</small>
         {% endfor %}
-        {% endfor %}
-        {% endfor %}
-      </li>
       {% endfor %}
-    </ul>
-    <button type="button" id="add-searchfield-btn">+</button>
-    <input type="submit" value="Search">
-  </form>
-  <button id="ticker-search-form-section-show">Ticker Search</button>
-</div>
-<div id="ticker-search-form-section" style="display: none">
-  <h2>Search By Ticker</h2>
-  <form action="{{ url_for('show_results') }}" id="ticker-search-form" method="get">
-    {{ search_by_ticker_form.hidden_tag()}}
-    {% for field in search_by_ticker_form if field.widget.input_type != 'hidden' %}
-      {{ field }}
-      {% for e in field.errors %}
-      <small>{{ e }}</small>
-      {% endfor %}
-    {% endfor %}
-    <input type="submit" value="Search">
-  </form>
-  <button id="multiple-search-form-section-show">Multiple Search</button>
+      <input type="submit" value="Search">
+    </form>
+    <button id="multiple-search-form-section-show">Multiple Search</button>
+  </div>
 </div>
 {% endblock %}
 {% block scripts %}

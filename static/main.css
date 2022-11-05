@@ -1,0 +1,67 @@
+body {
+  background-color: #1c1c1c;
+
+}
+
+nav {
+  background-color: #111111;
+
+}
+
+h1 {
+  font-family: 'Bungee', cursive;
+  font-size: 4rem;
+  color: #afffff;
+}
+
+h2 {
+  font-family: 'Bungee', cursive;
+  font-size: 2.5rem;
+  color: #afffff;
+}
+
+p {
+  color: #afffff;
+}
+
+.form-control {
+  color: #afffff;
+  background-color: #1c1c1c;
+  border: 1px solid rgba(175, 255, 255, .5);
+  border-radius: 0.25rem;
+}
+
+.form-control:hover, .form-control:focus {
+  color: #afffff;
+  background-color: #363636;
+  border: 1px solid #363636;
+  box-shadow: 2px 2px 3px #161616, 0px 0px 3px #161616, -2px 2px 3px #161616, 0px 0px 3px #161616;
+  transition: background-color .2s ease-in-out, border-color .2s ease-in-out;
+}
+
+.form-error {
+  color: #ff0087;
+}
+
+.btn-outline-light {
+  color: #afffff;
+  background-color: #363636;
+  border: 1px solid #363636;
+  border-radius: 0.25rem;
+}
+
+.btn-outline-light:hover, .btn-outline-light:focus {
+  color: #afffff;
+  background-color: #363636;
+  border: 1px solid rgba(175, 255, 255, .5);
+  box-shadow: none;
+}
+
+.btn-link {
+  color: #6291fd;
+}
+
+.btn-link:hover, .btn-link:focus {
+  color: #8baeff;
+  box-shadow: none;
+}
