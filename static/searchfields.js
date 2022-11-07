@@ -2,8 +2,8 @@
 const $searchfields = $('.searchfields');
 
 function reindex() {
-  const $lis = $searchfields.children('li');
-  $lis.each(function(i) {
+  const $inputGroup = $searchfields.find('.input-group');
+  $inputGroup.each(function(i) {
     const selectedVals = [];
     $(this).children('select').each(function() {
       selectedVals.push($(this).children('option:selected').val());
@@ -22,7 +22,11 @@ function appendRemoveBtn() {
   const $lis = $searchfields.children('li');
   if ($lis.length===2) {
     $lis.each(function() {
-      $(this).append(`<button type="button" class="remove-searchfield-btn">X</button>`);
+      $(this).append(`
+        <button type="button" class="remove-searchfield-btn btn btn-outline-danger position-relative ms-3">
+          <span class="material-symbols-outlined position-absolute top-50 start-50 translate-middle">close</span>
+        </button>
+      `);
     });
   }
 }

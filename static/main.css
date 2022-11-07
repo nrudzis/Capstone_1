@@ -1,17 +1,27 @@
+/*
+.col, .container-lg {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+*/
 body {
   background-color: #1c1c1c;
-
 }
 
-nav {
+.nav-bg {
   background-color: #111111;
-
 }
 
-h1 {
+.navbar-brand {
   font-family: 'Bungee', cursive;
-  font-size: 4rem;
+  font-size: 2rem;
   color: #afffff;
+}
+
+.nav-link {
+  color: #afffff;
+  border-width: 0;
+  background-color: #111111;
 }
 
 h2 {
@@ -25,6 +35,7 @@ p {
 }
 
 .form-control {
+  line-height: 1.3;
   color: #afffff;
   background-color: #1c1c1c;
   border: 1px solid rgba(175, 255, 255, .5);
@@ -32,15 +43,23 @@ p {
 }
 
 .form-control:hover, .form-control:focus {
-  color: #afffff;
-  background-color: #363636;
-  border: 1px solid #363636;
-  box-shadow: 2px 2px 3px #161616, 0px 0px 3px #161616, -2px 2px 3px #161616, 0px 0px 3px #161616;
-  transition: background-color .2s ease-in-out, border-color .2s ease-in-out;
+  color: #afffff !important;
+  background-color: #363636 !important;
+  border: 1px solid #363636 !important;
+  box-shadow: 2px 2px 3px #161616, 0px 0px 3px #161616, -2px 2px 3px #161616, 0px 0px 3px #161616 !important;
+  transition: background-color .2s ease-in-out, border-color .2s ease-in-out !important;
+}
+
+.form-max-width {
+  max-width: 500px;
 }
 
 .form-error {
-  color: #ff0087;
+  color: #dd0075;
+}
+
+.btn {
+  line-height: 1.3;
 }
 
 .btn-outline-light {
@@ -50,11 +69,11 @@ p {
   border-radius: 0.25rem;
 }
 
-.btn-outline-light:hover, .btn-outline-light:focus {
-  color: #afffff;
-  background-color: #363636;
-  border: 1px solid rgba(175, 255, 255, .5);
-  box-shadow: none;
+.btn-outline-light:hover, .btn-outline-light:focus, .btn-outline-light:active  {
+  color: #afffff !important;
+  background-color: #363636 !important;
+  border: 1px solid rgba(175, 255, 255, .5) !important;
+  box-shadow: none !important;
 }
 
 .btn-link {
@@ -64,4 +83,56 @@ p {
 .btn-link:hover, .btn-link:focus {
   color: #8baeff;
   box-shadow: none;
+}
+
+#add-searchfield-btn, .remove-searchfield-btn {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+#add-searchfield-btn {
+  color: #afffff;
+  background-color: #363636;
+  border: 1px solid #363636;
+}
+
+#add-searchfield-btn:hover, #add-searchfield-btn:focus, #add-searchfield-btn:active {
+  color: #afffff !important;
+  background-color: #1659f3 !important;
+  border: 1px solid rgba(175, 255, 255, .5) !important;
+  box-shadow: none !important;
+}
+
+.remove-searchfield-btn {
+  color: #afffff;
+  background-color: #363636;
+  border: 1px solid #363636;
+}
+
+.remove-searchfield-btn:hover, .remove-searchfield-btn:focus, .remove-searchfield-btn:active {
+  color: #dd0075 !important;
+  background-color: #363636 !important;
+  border: 1px solid rgba(221, 0, 117, .5) !important;
+  box-shadow: none !important;
+}
+
+.remove-searchfield-btn {
+  flex-basis: 36px;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+/* Remove ugly arrows from number inputs */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

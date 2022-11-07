@@ -3,19 +3,19 @@
 {% block h1 %}Home{% endblock %}
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col col-xs-auto col-xl-10 col-xxl-8 px-5 pt-5 pb-0">
+  <div class="col col-xs-auto col-xl-10 col-xxl-8 px-xs-3 px-sm-5 pt-5 pb-0">
     <p class="lead">Search for companies by EPS growth and number of institutional holders. Read about companies and visualize data. Create watchlists to track these metrics over time.</p>
   </div>
 </div>
 <div class="row justify-content-center">
-  <div class="col col-xs-auto col-sm-9 col-md-8 col-lg-7 col-xl-6 col-xxl-5 px-5 pt-5 pb-0">
+  <div class="col col-xs-auto col-sm-9 col-md-8 col-lg-7 col-xl-6 col-xxl-5 px-xs-3 px-sm-5 pt-5 pb-0">
     <div id="login-form-section">
       <h2 class="mb-5">Log In</h2>
       <form action="{{ url_for('show_home') }}" method="post">
         {{ login_form.hidden_tag()}}
         {% for field in login_form if field.widget.input_type != 'hidden' %}
         {% if field.widget.input_type != 'submit' %}
-          {{ field(class_="form-control mt-3") }}
+          {{ field(class_="form-control form-max-width mt-3") }}
         {% else %}
           {{ field(class_="btn btn-outline-light my-4") }}
         {% endif %}
@@ -32,7 +32,7 @@
         {{ register_form.hidden_tag() }}
         {% for field in register_form if field.widget.input_type != 'hidden' %}
         {% if field.widget.input_type != 'submit' %}
-          {{ field(class_="form-control mt-3") }}
+          {{ field(class_="form-control form-max-width mt-3") }}
         {% else %}
           {{ field(class_="btn btn-outline-light my-4") }}
         {% endif  %}
