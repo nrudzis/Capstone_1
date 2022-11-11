@@ -1,49 +1,87 @@
 {% extends 'base.html' %}
 {% block title %}{{ company.name }} ({{ company.ticker }}){% endblock %}
-{% block h1 %}{{ company.name }} ({{ company.ticker }}){% endblock %}
 {% block content %}
-<h2>Description:</h2>
-<p>{{ company.description }}</p>
-<h2>Data:</h2>
-<table style="border: 1px solid black">
-  <thead>
-    <tr>
-      <th colspan="100%" style="border: 1px solid black">EPS Data (Most Recent First)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th style="border: 1px solid black">Quarterly EPS Growth (%)</th>
-      <th style="border: 1px solid black">Annual EPS Growth (%)</th>
-    </tr>
-    <tr>
-      <td style="border: 1px solid black">{{ company.q_eps_growth_first|round(2) if company.q_eps_growth_first != None else '--' }}</td>
-      <td style="border: 1px solid black">{{ company.a_eps_growth_first|round(2) if company.a_eps_growth_first != None else '--' }}</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid black">{{ company.q_eps_growth_next|round(2) if company.q_eps_growth_next != None else '--' }}</td>
-      <td style="border: 1px solid black">{{ company.a_eps_growth_next|round(2) if company.a_eps_growth_next != None else '--' }}</td>
-    </tr>
-    <tr>
-      <td style="border: 1px solid black">{{ company.q_eps_growth_last|round(2) if company.q_eps_growth_last != None else '--' }}</td>
-      <td style="border: 1px solid black">{{ company.a_eps_growth_last|round(2) if company.a_eps_growth_last != None else '--' }}</td>
-    </tr>
-  </tbody>
-</table>
-<p><strong>Institutional Holders:</strong> {{ company.institutional_holders }}</p>
-{% if watchlists %}
-<h2>Add to a watchlist?</h2>
-<form action="{{ url_for('show_company_info', ticker=company.ticker) }}" method="post">
-  {{ add_to_watchlist_form.hidden_tag()}}
-  {% for field in add_to_watchlist_form if field.widget.input_type != 'hidden' %}
-  <p>
-    {{ field.label(class_="form-label") if field.widget.input_type != 'submit' }}
-    {{ field(class_="form-control") }}
-    {% for e in field.errors %}
-    <small>{{ e }}</small>
-    {% endfor %}
-  </p>
-  {% endfor %}
-</form>
-{% endif %}
+<div class="row justify-content-start">
+  <div class="col-xs-auto col-xl-10 col-xxl-8 px-xs-3 px-sm-5 pt-5 pb-0">
+    <div id="company-info-section">
+      <h1 class="mb-5">{{ company.name }} ({{ company.ticker }})</h1>
+      <h2>Description</h2>
+      <p class="mb-5">{{ company.description }}</p>
+      <h2>Data</h2>
+      <div id="data-section" class="container-fluid p-0 pe-sm-3 pe-md-5">
+        <div id="chart-section" class="row mt-3">
+          <div class="col-sm-6">
+            <div class="chart px-2 pb-2 pt-1">
+              <canvas id="q-eps-growth-chart"></canvas>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="chart px-2 pb-2 pt-1 mt-4 mt-sm-0">
+              <canvas id="a-eps-growth-chart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div id="table-section" class="mt-4 px-2">
+          <table class="table mb-0">
+            <thead>
+              <tr>
+                <th class="text-center" scope="col" colspan="100%">EPS Growth</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <tr>
+                <th scope="col">Period</th>
+                <th scope="col">Q YoY EPS Growth (%)</th>
+                <th scope="col">A EPS Growth (%)</th>
+              </tr>
+              <tr>
+                <th scope="row">Latest</td>
+                <td>{{ company.q_eps_growth_first|round(2) if company.q_eps_growth_first != None else '--' }}</td>
+                <td>{{ company.a_eps_growth_first|round(2) if company.a_eps_growth_first != None else '--' }}</td>
+              </tr>
+              <tr>
+                <th scope="row">1 Ago</td>
+                <td>{{ company.q_eps_growth_next|round(2) if company.q_eps_growth_next != None else '--' }}</td>
+                <td>{{ company.a_eps_growth_next|round(2) if company.a_eps_growth_next != None else '--' }}</td>
+              </tr>
+              <tr>
+                <th class="td-no-border" scope="row">2 Ago</td>
+                <td class="td-no-border">{{ company.q_eps_growth_last|round(2) if company.q_eps_growth_last != None else '--' }}</td>
+                <td class="td-no-border">{{ company.a_eps_growth_last|round(2) if company.a_eps_growth_last != None else '--' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="inst-holders-bg p-2 mt-4 mb-5"><strong>Institutional Holders:</strong> {{ company.institutional_holders }}</p>
+      </div>
+    </div>
+    {% if watchlists %}
+    <div id="wl-form-section" class="container-fluid p-0 pe-sm-3">
+      <h2>Add to a watchlist?</h2>
+      <form action="{{ url_for('show_company_info', ticker=company.ticker) }}" method="post">
+        {{ add_to_watchlist_form.hidden_tag()}}
+        {% for field in add_to_watchlist_form if field.widget.input_type != 'hidden' %}
+        {% if field.widget.input_type != 'submit' %}
+          {{ field(class_="form-control form-select form-max-width mt-3") }}
+        {% else %}
+          {{ field(class_="btn btn-outline-light me-2 my-4") }}
+        {% endif %}
+        {% for e in field.errors %}
+        <small class="form-error d-block">{{ e }}</small>
+        {% endfor %}
+        {% endfor %}
+      </form>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src={{ url_for('static', filename='forms.js') }}></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  const qEpsGrowthData = {{ [company.q_eps_growth_last|round() if company.q_eps_growth_last != None else company.q_eps_growth_last, company.q_eps_growth_next|round() if company.q_eps_growth_next != None else company.q_eps_growth_next, company.q_eps_growth_first|round() if company.q_eps_growth_first != None else company.q_eps_growth_first]|tojson }}
+  const aEpsGrowthData = {{ [company.a_eps_growth_last|round() if company.a_eps_growth_last != None else company.a_eps_growth_last, company.a_eps_growth_next|round() if company.a_eps_growth_next != None else company.a_eps_growth_next, company.a_eps_growth_first|round() if company.a_eps_growth_first != None else company.a_eps_growth_first]|tojson }}
+</script>
+<script src={{ url_for('static', filename='charts.js') }}></script>
 {% endblock %}

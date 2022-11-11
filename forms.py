@@ -41,9 +41,9 @@ class SearchSubform(Form):
 
     attribute = SelectField(choices=[
             ('', 'Choose a type of data'),
-            ('q_eps_growth_first', 'Latest Quarterly EPS Growth'),
-            ('q_eps_growth_next', '1 Quarter Ago Quarterly EPS Growth'),
-            ('q_eps_growth_last', '2 Quarters Ago Quarterly EPS Growth'),
+            ('q_eps_growth_first', 'Latest Quarterly YoY EPS Growth'),
+            ('q_eps_growth_next', '1 Qtr Ago Qtly YoY EPS Growth'),
+            ('q_eps_growth_last', '2 Qtrs Ago Qtly YoY EPS Growth'),
             ('a_eps_growth_first', 'Latest Annual EPS Growth'),
             ('a_eps_growth_next', '1 Year Ago Annual EPS Growth'),
             ('a_eps_growth_last', '2 Years Ago Annual EPS Growth'),
@@ -88,7 +88,7 @@ class WatchlistForm(FlaskForm):
 class AddToWatchlistForm(FlaskForm):
     """Form to add a company to an existing watchlist."""
 
-    watchlist = SelectField(choices=[])
+    watchlist = SelectField(choices=[], validators=[DataRequired()])
     add = SubmitField('Add')
 
 

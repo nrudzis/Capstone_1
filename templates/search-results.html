@@ -1,37 +1,57 @@
 {% extends 'base.html' %}
 {% block title %}Search Results{% endblock %}
-{% block h1 %}Search Results{% endblock %}
 {% block content %}
-<div class="col col-xs-auto col-xl-10 col-xxl-8 p-5">
-  <div id="search-results-section">
-    {% if companies %}
-    <ul>
-      {% for company in companies %}
-      <li>
-        <a href="{{ url_for('show_company_info', ticker=company.ticker) }}">{{ company.name }} ({{ company.ticker }})</a>
-      </li>
-      {% endfor %}
-    </ul>
-    <button id="watchlist-form-section-show">Save Results in Watchlist</button>
-    {% else %}
-    <p>No results found.</p>
-    {% endif %}
-    <a href="{{ url_for('show_home') }}">New Search</a>
-  </div>
-  <div id="watchlist-form-section" style="display: none">
-    <h2>Save Watchlist</h2>
-    <form action="{{ url_for('show_results') }}" method="post">
-      {{ watchlist_form.hidden_tag()}}
-      {% for field in watchlist_form if field.widget.input_type != 'hidden' %}
-      <p>
-        {{ field }}
-        {% for e in field.errors %}
-        <small>{{ e }}</small>
+<div class="row justify-content-start">
+  <div class="col col-xs-auto col-xl-10 col-xxl-8 px-xs-3 px-sm-5 pt-5 pb-0">
+    <div id="search-results-section">
+      <h1 class="mb-5">Search Results</h1>
+      {% if companies %}
+      <ul class="list-group list-group-flush">
+        {% for company in companies %}
+        <li class="list-item">
+          <a class="lead search-result-heading" href="{{ url_for('show_company_info', ticker=company.ticker) }}">{{ company.name }} ({{ company.ticker }})</a>
+          {% if company.description %}
+          <p class="mb-0">
+            {{ company.description|truncate(100) }}
+          </p>
+          {% endif %}
+          <p>
+            {% if eg_trend([company.q_eps_growth_first, company.q_eps_growth_next, company.q_eps_growth_last]) %}
+            <span class="material-symbols-outlined data-icon {{ eg_trend([company.q_eps_growth_first, company.q_eps_growth_next, company.q_eps_growth_last]) }}">{{ eg_trend([company.q_eps_growth_first, company.q_eps_growth_next, company.q_eps_growth_last]) }}</span>
+            {% endif %}
+            Q: {{ company.q_eps_growth_last|round(2) if company.q_eps_growth_last != None else '--' }} | {{ company.q_eps_growth_next|round(2) if company.q_eps_growth_next != None else '--' }} | {{ company.q_eps_growth_first|round(2) if company.q_eps_growth_first != None else '--' }}
+            <span class="me-2"></span>
+            {% if eg_trend([company.a_eps_growth_first, company.a_eps_growth_next, company.a_eps_growth_last]) %}
+            <span class="material-symbols-outlined data-icon {{ eg_trend([company.a_eps_growth_first, company.a_eps_growth_next, company.a_eps_growth_last]) }}">{{ eg_trend([company.a_eps_growth_first, company.a_eps_growth_next, company.a_eps_growth_last]) }}</span>
+            {% endif %}
+            A: {{ company.a_eps_growth_last|round(2) if company.a_eps_growth_last != None else '--' }} | {{ company.a_eps_growth_next|round(2) if company.a_eps_growth_next != None else '--' }} | {{ company.a_eps_growth_first|round(2) if company.a_eps_growth_first != None else '--' }}
+          </p>
+        </li>
         {% endfor %}
-      </p>
-      {% endfor %}
-    </form>
-    <button id="watchlist-form-section-hide">Cancel</button>
+      </ul>
+      <button id="watchlist-form-section-show" class="btn btn-outline-light me-2 my-4">Save Results in Watchlist</button>
+      {% else %}
+      <p>No results found.</p>
+      {% endif %}
+      <a class="btn btn-outline-light my-4" href="{{ url_for('show_home') }}">New Search</a>
+    </div>
+    <div id="watchlist-form-section" style="display: none">
+      <h2>Save Watchlist</h2>
+      <form action="{{ url_for('show_results') }}" method="post">
+        {{ watchlist_form.hidden_tag()}}
+        {% for field in watchlist_form if field.widget.input_type != 'hidden' %}
+        {% if field.widget.input_type != 'submit' %}
+          {{ field(class_="form-control form-max-width mt-3") }}
+        {% else %}
+          {{ field(class_="btn btn-outline-light me-2 my-4") }}
+        {% endif %}
+        {% for e in field.errors %}
+        <small class="form-error d-block">{{ e }}</small>
+        {% endfor %}
+        {% endfor %}
+        <button type="button" id="watchlist-form-section-hide" class="btn btn-outline-light d-inline my-4">Cancel</button>
+      </form>
+    </div>
   </div>
 </div>
 {% endblock %}

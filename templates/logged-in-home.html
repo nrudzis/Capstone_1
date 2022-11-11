@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
-{% block h1 %}Home{% endblock %}
 {% block content %}
-<div class="row justify-content-center">
+<div class="row justify-content-start">
   <div class="col col-xs-auto col-xl-10 col-xxl-8 px-xs-3 px-sm-5 pt-5 pb-0">
+    <h1 class="mb-5">Home</h1>
     <div id="multiple-search-form-section">
       <h2>Multiple Conditions Search</h2>
       <form action="{{ url_for('show_results') }}" id="multiple-search-form" method="get">
@@ -30,7 +30,7 @@
           </ul>
         <button type="button" id="add-searchfield-btn" class="btn btn-outline-secondary position-relative float-end mt-3"><span class="material-symbols-outlined position-absolute top-50 start-50 translate-middle">add</span></button>
         <input type="submit" value="Search" class="btn btn-outline-light d-inline my-4 me-2">
-        <button type="button" id="ticker-search-form-section-show" class="btn btn-outline-light d-inline my-4">Ticker Search</button>
+        <button type="button" id="ticker-search-form-section-show" class="btn btn-outline-light d-inline my-4">Switch to Ticker Search</button>
       </form>
     </div>
     <div id="ticker-search-form-section" style="display: none">
@@ -44,7 +44,7 @@
         {% endfor %}
         {% endfor %}
         <input type="submit" value="Search" class="btn btn-outline-light d-inline my-4 me-2">
-        <button type="button" id="multiple-search-form-section-show" class="btn btn-outline-light d-inline my-4">Multiple Search</button>
+        <button type="button" id="multiple-search-form-section-show" class="btn btn-outline-light d-inline my-4">Switch to Multiple Search</button>
       </form>
     </div>
   </div>

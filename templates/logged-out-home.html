@@ -10,7 +10,7 @@
 <div class="row justify-content-center">
   <div class="col col-xs-auto col-sm-9 col-md-8 col-lg-7 col-xl-6 col-xxl-5 px-xs-3 px-sm-5 pt-5 pb-0">
     <div id="login-form-section">
-      <h2 class="mb-5">Log In</h2>
+      <h1 class="mb-5">Log In</h1>
       <form action="{{ url_for('show_home') }}" method="post">
         {{ login_form.hidden_tag()}}
         {% for field in login_form if field.widget.input_type != 'hidden' %}
@@ -27,7 +27,7 @@
       <p><span class="d-inline align-middle">Don't have an account? Register </span><button id="register-form-section-show" class="btn btn-link px-0">here</button><span class="d-inline-block align-middle">.</span></p>
     </div>
     <div id="register-form-section" style="display: none">
-      <h2 class="mb-5">Register</h2>
+      <h1 class="mb-5">Register</h1>
       <form action="{{ url_for('show_home') }}" method="post">
         {{ register_form.hidden_tag() }}
         {% for field in register_form if field.widget.input_type != 'hidden' %}

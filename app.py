@@ -20,6 +20,7 @@ debug = DebugToolbarExtension(app)
 connect_db(app)
 #seed_companies(company_info)
 
+
 # HELPER FUNCTIONS
 def login_required(f):
     @wraps(f)
@@ -42,6 +43,32 @@ def check_username(f):
             return redirect(url_for('show_home'))
         return f(username, **kwargs)
     return wrapper
+
+def eg_trend(egs):
+    if None in egs:
+        if egs[0] is None or len(set(egs)) == 1 or egs[1:3].count(None) == 2:
+            return False
+        elif egs[1] is not None:
+            if egs[0] > egs[1]:
+                return 'trending_up'
+            elif egs[0] < egs[1]:
+                return 'trending_down'
+            else:
+                return 'trending_flat'
+        else:
+            if egs[0] > egs[2]:
+                return 'trending_up'
+            elif egs[0] < egs[2]:
+                return 'trending_down'
+            else:
+                return 'trending_flat'
+    else:
+        if egs[0] > egs[1] and egs[0] > egs[2]:
+            return 'trending_up'
+        elif egs[0] < egs[1] and egs[0] < egs[2]:
+            return 'trending_down'
+        else:
+            return 'trending_flat'
 
 
 # VIEW FUNCTIONS
@@ -116,7 +143,7 @@ def show_results():
         companies = Company.search(query_elements)
     company_ids = ','.join([str(company.id) for company in companies])
     watchlist_form.company_ids.data = company_ids
-    return render_template('search-results.html', companies=companies, watchlist_form=watchlist_form)
+    return render_template('search-results.html', companies=companies, watchlist_form=watchlist_form, eg_trend=eg_trend)
 
 
 @app.route('/companies/<ticker>', methods=['GET', 'POST'])
@@ -129,6 +156,7 @@ def show_company_info(ticker):
     company = Company.query.filter_by(ticker=ticker).first_or_404()
     add_to_watchlist_form = AddToWatchlistForm()
     add_to_watchlist_form.watchlist.choices = [(wl.id, wl.title) for wl in watchlists]
+    add_to_watchlist_form.watchlist.choices.insert(0, ('', 'Choose a watchlist'))
     if add_to_watchlist_form.validate_on_submit():
         watchlist_id = add_to_watchlist_form.watchlist.data
         watchlist_company = WatchlistCompany(watchlist_id=watchlist_id, company_id=company.id)

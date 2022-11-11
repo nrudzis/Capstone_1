@@ -8,11 +8,13 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 
 
+#HELPER FUNCTIONS
 def connect_db(app):
     db.app = app
     db.init_app(app)
 
 
+#MODELS
 class User(db.Model):
     """User model."""
 

@@ -31,14 +31,6 @@ function appendRemoveBtn() {
   }
 }
 
-function makePlaceholder(options) {
-  options.each(function() {
-    $(this)
-      .prop('disabled', true)
-      .prop('selected', true);
-  });
-}
-
 function addNewSearchfield() {
   const $newSearchfield = $searchfields.children().first().clone();
   $newSearchfield.find('input').val('');
@@ -48,10 +40,6 @@ function addNewSearchfield() {
   appendRemoveBtn();
   reindex();
 }
-
-const $firstOptions = $searchfields.first().find('option:first-child');
-
-makePlaceholder($firstOptions);
 
 $('#add-searchfield-btn')
   .on('click', () => {

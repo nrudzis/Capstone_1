@@ -13,7 +13,8 @@ $showFormSectionBtns.click(function(e) {
 });
 
 $hideFormSectionBtns.click(function() {
-  $(this).parent().hide();
+  $('[id$="-form-section"]').hide();
+  //$(this).parent().hide();
   $showFormSectionBtns.each(function() {
     $(this).show();
   });
@@ -30,3 +31,17 @@ $formSections.each(function() {
     $('#' + formSectionId + '-show').hide();
   }
 });
+
+//SELECTS
+//Make first option a placeholder
+function makePlaceholder(options) {
+  options.each(function() {
+    $(this)
+      .prop('disabled', true)
+      .prop('selected', true);
+  });
+}
+
+const $firstOptions = $('.form-select').find('option:first-child');
+
+makePlaceholder($firstOptions);
