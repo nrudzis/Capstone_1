@@ -1,40 +1,59 @@
 {% extends 'base.html' %}
-{% block title %}Saved Watchlists{% endblock %}
-{% block h1 %}Watchlists{% endblock %}
+{% block title %}Watchlists{% endblock %}
 {% block content %}
-<div id="user-watchlists-section">
-  {% if watchlists %}
-  <ul>
-    {% for watchlist in watchlists %}
-    <li>
-      <a href="{{ url_for('show_watchlist', username=session['username'], watchlist_id=watchlist.id) }}">{{ watchlist.title }}</a> - [Created: {{ watchlist.date_created }}, Updated: {{ watchlist.last_updated }}]
-      <form action="{{ url_for('delete_watchlist', username=session['username'], watchlist_id=watchlist.id) }}" method="post" style="display: inline">
-        <input type="submit" value="X">
+<div class="row justify-content-start">
+  <div class="col col-xs-auto col-xl-10 col-xxl-8 px-xs-3 px-sm-5 pt-5 pb-0">
+    <h1 class="mb-5">Watchlists</h1>
+    <div id="user-watchlists-section">
+      {% if watchlists %}
+      <ul class="list-group list-group-flush">
+        {% for watchlist in watchlists %}
+        <li class="list-group-item container-fluid pt-0 mb-2">
+          <div class="row">
+            <div class="col-10 col-sm-11">
+              <a class="lead lg-item-heading" href="{{ url_for('show_watchlist', username=session['username'], watchlist_id=watchlist.id) }}">{{ watchlist.title }}</a>
+              {% if watchlist.description %}
+              <p class="mb-0">{{ watchlist.description }}</p>
+              {% endif %}
+              <small class="watchlist-datetimes d-block">Created: {{ watchlist.date_created|format_dt }}<span class="me-2"></span>Updated: {{ watchlist.last_updated|format_dt }}</small>
+            </div>
+            <div class="col-2 col-sm-1">
+              <form action="{{ url_for('delete_watchlist', username=session['username'], watchlist_id=watchlist.id) }}" method="post" id="wl-delete-lpage" class="delete-form wl-delete d-flex">
+                <button type="submit" class="btn btn-round btn-remove position-relative ms-auto mt-2">
+                  <span class="material-symbols-outlined position-absolute top-50 start-50 translate-middle">delete</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="mb-0 pb-4">You haven't created any watchlists.</p>
+      {% endif %}
+      <button id="watchlist-form-section-show" class="btn btn-main me-2 my-4">Create a New Watchlist</button>
+    </div>
+    <div id="watchlist-form-section" class="mt-4" style="display: none">
+      <h2>New Watchlist</h2>
+      <form method="post">
+        {{ watchlist_form.hidden_tag()}}
+        {% for field in watchlist_form if field.widget.input_type != 'hidden' %}
+        {% if field.widget.input_type != 'submit' %}
+          {{ field(class_="form-control form-max-width mt-3") }}
+        {% else %}
+          {{ field(class_="btn btn-main d-inline me-2 my-4") }}
+        {% endif %}
+        {% for e in field.errors %}
+        <small class="form-error d-block">{{ e }}</small>
+        {% endfor %}
+        {% endfor %}
+        <button type="button" id="watchlist-form-section-hide" class="btn btn-main d-inline my-4">Cancel</button>
       </form>
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>You haven't created any watchlists.</p>
-  {% endif %}
-  <button id="watchlist-form-section-show">Create a New Watchlist</button>
-</div>
-<div id="watchlist-form-section" style="display: none">
-  <h2>New Watchlist</h2>
-  <form action="" method="post">
-    {{ watchlist_form.hidden_tag()}}
-    {% for field in watchlist_form if field.widget.input_type != 'hidden' %}
-    <p>
-      {{ field }}
-      {% for e in field.errors %}
-      <small>{{ e }}</small>
-      {% endfor %}
-    </p>
-    {% endfor %}
-  </form>
-  <button id="watchlist-form-section-hide">Cancel</button>
+    </div>
+  </div>
 </div>
 {% endblock %}
 {% block scripts %}
 <script src={{ url_for('static', filename='forms.js') }}></script>
+<script src={{ url_for('static', filename='confirmations.js') }}></script>
 {% endblock %}

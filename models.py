@@ -25,7 +25,7 @@ class User(db.Model):
     username = db.Column(db.String(30), nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
 
-    watchlists = db.relationship('Watchlist', backref='user', cascade='all, delete, delete-orphan', passive_deletes=True)
+    watchlists = db.relationship('Watchlist', backref='user', order_by='desc(Watchlist.last_updated)', cascade='all, delete, delete-orphan', passive_deletes=True)
 
     @classmethod
     def authenticate(cls, username, pwd):

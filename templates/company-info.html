@@ -8,7 +8,7 @@
       <h2>Description</h2>
       <p class="mb-5">{{ company.description }}</p>
       <h2>Data</h2>
-      <div id="data-section" class="container-fluid p-0 pe-sm-3 pe-md-5">
+      <div id="data-section" class="container-fluid p-0">
         <div id="chart-section" class="row mt-3">
           <div class="col-sm-6">
             <div class="chart px-2 pb-2 pt-1">
@@ -21,7 +21,7 @@
             </div>
           </div>
         </div>
-        <div id="table-section" class="mt-4 px-2">
+        <div id="table-section" class="mt-4 px-2 pb-2">
           <table class="table mb-0">
             <thead>
               <tr>
@@ -45,18 +45,18 @@
                 <td>{{ company.a_eps_growth_next|round(2) if company.a_eps_growth_next != None else '--' }}</td>
               </tr>
               <tr>
-                <th class="td-no-border" scope="row">2 Ago</td>
-                <td class="td-no-border">{{ company.q_eps_growth_last|round(2) if company.q_eps_growth_last != None else '--' }}</td>
-                <td class="td-no-border">{{ company.a_eps_growth_last|round(2) if company.a_eps_growth_last != None else '--' }}</td>
+                <th scope="row">2 Ago</td>
+                <td>{{ company.q_eps_growth_last|round(2) if company.q_eps_growth_last != None else '--' }}</td>
+                <td>{{ company.a_eps_growth_last|round(2) if company.a_eps_growth_last != None else '--' }}</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <p class="inst-holders-bg p-2 mt-4 mb-5"><strong>Institutional Holders:</strong> {{ company.institutional_holders }}</p>
+        <p id="inst-holders" class="p-2 mt-4 mb-5"><strong>Institutional Holders:</strong> {{ company.institutional_holders }}</p>
       </div>
     </div>
     {% if watchlists %}
-    <div id="wl-form-section" class="container-fluid p-0 pe-sm-3">
+    <div id="add-wl-form-section" class="container-fluid p-0 pe-sm-3">
       <h2>Add to a watchlist?</h2>
       <form action="{{ url_for('show_company_info', ticker=company.ticker) }}" method="post">
         {{ add_to_watchlist_form.hidden_tag()}}
@@ -64,7 +64,7 @@
         {% if field.widget.input_type != 'submit' %}
           {{ field(class_="form-control form-select form-max-width mt-3") }}
         {% else %}
-          {{ field(class_="btn btn-outline-light me-2 my-4") }}
+          {{ field(class_="btn btn-main me-2 my-4") }}
         {% endif %}
         {% for e in field.errors %}
         <small class="form-error d-block">{{ e }}</small>

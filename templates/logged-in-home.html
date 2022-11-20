@@ -28,12 +28,12 @@
             </li>
             {% endfor %}
           </ul>
-        <button type="button" id="add-searchfield-btn" class="btn btn-outline-secondary position-relative float-end mt-3"><span class="material-symbols-outlined position-absolute top-50 start-50 translate-middle">add</span></button>
-        <input type="submit" value="Search" class="btn btn-outline-light d-inline my-4 me-2">
-        <button type="button" id="ticker-search-form-section-show" class="btn btn-outline-light d-inline my-4">Switch to Ticker Search</button>
+        <button type="button" id="add-searchfield-btn" class="btn btn-round position-relative float-end mt-3"><span class="material-symbols-outlined position-absolute top-50 start-50 translate-middle">add</span></button>
+        <input type="submit" value="Search" class="btn btn-main d-inline my-4 me-2">
+        <button type="button" id="ticker-search-form-section-show" class="btn btn-main d-inline my-4">Switch to Ticker Search</button>
       </form>
     </div>
-    <div id="ticker-search-form-section" style="display: none">
+    <div id="ticker-search-form-section">
       <h2>Ticker Search</h2>
       <form action="{{ url_for('show_results') }}" id="ticker-search-form" method="get">
         {{ search_by_ticker_form.hidden_tag()}}
@@ -43,8 +43,8 @@
         <small class="form-error d-block">{{ e }}</small>
         {% endfor %}
         {% endfor %}
-        <input type="submit" value="Search" class="btn btn-outline-light d-inline my-4 me-2">
-        <button type="button" id="multiple-search-form-section-show" class="btn btn-outline-light d-inline my-4">Switch to Multiple Search</button>
+        <input type="submit" value="Search" class="btn btn-main d-inline my-4 me-2">
+        <button type="button" id="multiple-search-form-section-show" class="btn btn-main d-inline my-4">Switch to Multiple Search</button>
       </form>
     </div>
   </div>

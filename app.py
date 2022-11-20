@@ -6,7 +6,7 @@ from models import db, connect_db, User, Company, Watchlist, WatchlistCompany
 from forms import LoginForm, RegisterForm, SearchForm, SearchByTickerForm, WatchlistForm, AddToWatchlistForm, ChangeEmailForm, ChangeUsernameForm, ChangePasswordForm
 from sqlalchemy.exc import IntegrityError
 from functools import wraps
-#from company_info_seed import company_info, seed_companies
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -18,7 +18,6 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
 connect_db(app)
-#seed_companies(company_info)
 
 
 # HELPER FUNCTIONS
@@ -33,6 +32,7 @@ def login_required(f):
         return f(**kwargs)
     return wrapper 
 
+
 def check_username(f):
     @wraps(f)
     def wrapper(username, **kwargs):
@@ -44,6 +44,8 @@ def check_username(f):
         return f(username, **kwargs)
     return wrapper
 
+
+@app.template_filter('eg_trend')
 def eg_trend(egs):
     if None in egs:
         if egs[0] is None or len(set(egs)) == 1 or egs[1:3].count(None) == 2:
@@ -71,6 +73,20 @@ def eg_trend(egs):
             return 'trending_flat'
 
 
+@app.template_filter('format_dt')
+def format_dt(dt):
+    return dt.strftime('%b %d, %Y %I:%M:%S %p')
+
+def timeGreet():
+    hour = int(datetime.now().hour)
+    if hour >= 0 and hour < 12:
+        return 'Good morning'
+    elif hour >=12 and hour < 17:
+        return 'Good afternoon'
+    else:
+        return 'Good evening'
+
+
 # VIEW FUNCTIONS
 @app.route('/')
 def redirect_to_home():
@@ -92,7 +108,8 @@ def show_home():
             user = User.authenticate(username, password)
             if user:
                 session['username'] = user.username
-                flash(f'Welcome back, {user.username}!')
+                greeting = timeGreet()
+                flash(f"{greeting}, {user.username}!")
                 return redirect(url_for('show_home'))
             else:
                 login_form.username.errors = ['Username or password is invalid.']
@@ -143,7 +160,7 @@ def show_results():
         companies = Company.search(query_elements)
     company_ids = ','.join([str(company.id) for company in companies])
     watchlist_form.company_ids.data = company_ids
-    return render_template('search-results.html', companies=companies, watchlist_form=watchlist_form, eg_trend=eg_trend)
+    return render_template('search-results.html', companies=companies, watchlist_form=watchlist_form)
 
 
 @app.route('/companies/<ticker>', methods=['GET', 'POST'])
@@ -169,7 +186,7 @@ def show_company_info(ticker):
             flash(f"Error: {company.name} already in '{watchlist.title}'!")
             return redirect(url_for('show_company_info', ticker=ticker))
         flash(f"{company.name} ({company.ticker}) added to '{watchlist.title}'!")
-        return redirect(url_for('show_watchlist', username=user.username, watchlist_id=watchlist_id))
+        return redirect(url_for('show_company_info', ticker=ticker))
     return render_template('company-info.html', company=company, watchlists=watchlists, add_to_watchlist_form=add_to_watchlist_form)
 
 
@@ -228,7 +245,7 @@ def logout_user(username):
 
     """Log out current user."""
     session.pop('username')
-    flash('Bye!')
+    flash("You've logged out!")
     return redirect(url_for('show_home'))
 
 

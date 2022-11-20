@@ -1,63 +1,89 @@
 {% extends 'base.html' %}
 {% block title %}Your Account{% endblock %}
-{% block h1 %}Your Account{% endblock %}
 {% block content %}
-<div id="user-info-section">
-  <p><strong>Email:</strong> {{ user.email }}</p>
-  <p><strong>Username:</strong> {{ user.username }}</p>
-  <button id="email-form-section-show">Change Email</button>
-  <button id="username-form-section-show">Change Username</button>
-  <button id="password-form-section-show">Change Password</button>
-  <form action="{{ url_for('delete_user', username=user.username) }}" method="post" style="display: inline">
-    <input type="submit" value="Delete Account">
-  </form>
-</div>
-<div id="email-form-section" style="display: none">
-  <h2>Change Email</h2>
-  <form action="{{ url_for('show_user_info', username=user.username) }}" method="post">
-    {{ change_email_form.hidden_tag()}}
-    {% for field in change_email_form if field.widget.input_type != 'hidden' %}
-    <p>
-      {{ field }}
-      {% for e in field.errors %}
-      <small class="form-error">{{ e }}</small>
-      {% endfor %}
-    </p>
-    {% endfor %}
-  </form>
-  <button id="email-form-section-hide">Cancel</button>
-</div>
-<div id="username-form-section" style="display: none">
-  <h2>Change Username</h2>
-  <form action="{{ url_for('show_user_info', username=user.username) }}" method="post">
-    {{ change_username_form.hidden_tag()}}
-    {% for field in change_username_form if field.widget.input_type != 'hidden' %}
-    <p>
-      {{ field }}
-      {% for e in field.errors %}
-      <small class="form-error">{{ e }}</small>
-      {% endfor %}
-    </p>
-    {% endfor %}
-  </form>
-  <button id="username-form-section-hide">Cancel</button>
-</div>
-<div id="password-form-section" style="display: none">
-  <h2>Change Password</h2>
-  <form action="{{ url_for('show_user_info', username=user.username) }}" method="post">
-    {{ change_password_form.hidden_tag()}}
-    {% for field in change_password_form if field.widget.input_type != 'hidden' %}
-    <p>
-      {{ field }}
-      {% for e in field.errors %}
-      <small class="form-error">{{ e }}</small>
-      {% endfor %}
-    </p>
-    {% endfor %}
-  </form>
-  <button id="password-form-section-hide">Cancel</button>
+<div class="row justify-content-start">
+  <div class="col col-xs-auto col-xl-10 col-xxl-8 px-xs-3 px-sm-5 pt-5 pb-0">
+    <h1 class="mb-5">Your Account</h1>
+    <h2>Current Info</h2>
+    <div id="table-section" class="table-section mt-3 p-2">
+      <table class="table mb-0">
+        <tbody>
+          <tr>
+            <th scope="row">Email</th>
+            <td>{{ user.email }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Username</td>
+            <td>{{ user.username }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-inline-flex flex-column flex-md-row mb-3">
+      <button id="email-form-section-show" class="btn btn-main mt-4 me-md-2">Change Email</button>
+      <button id="username-form-section-show" class="btn btn-main mt-4 me-md-2">Change Username</button>
+      <button id="password-form-section-show" class="btn btn-main mt-4 me-md-2">Change Password</button>
+      <form action="{{ url_for('delete_user', username=user.username) }}" method="post" id="u-delete" class="delete-form d-inline">
+        <button type="submit" id="btn-delete" class="btn btn-main btn-remove mt-4">
+          <span id="delete-acct-icon" class="material-symbols-outlined align-bottom">dangerous</span>
+          Delete Account
+        </button>
+      </form>
+    </div>
+    <div id="email-form-section" class="mt-4">
+      <h2>Change Email</h2>
+      <form action="{{ url_for('show_user_info', username=user.username) }}" method="post">
+        {{ change_email_form.hidden_tag() }}
+        {% for field in change_email_form if field.widget.input_type != 'hidden' %}
+        {% if field.widget.input_type != 'submit' %}
+          {{ field(class_="form-control form-max-width mt-3") }}
+        {% else %}
+          {{ field(class_="btn btn-main d-inline me-2 my-4") }}
+        {% endif %}
+        {% for e in field.errors %}
+        <small class="form-error d-block">{{ e }}</small>
+        {% endfor %}
+        {% endfor %}
+        <button type="buttom" id="email-form-section-hide" class="btn btn-main d-inline my-4">Cancel</button>
+      </form>
+    </div>
+    <div id="username-form-section" class="mt-4">
+      <h2>Change Username</h2>
+      <form action="{{ url_for('show_user_info', username=user.username) }}" method="post">
+        {{ change_username_form.hidden_tag() }}
+        {% for field in change_username_form if field.widget.input_type != 'hidden' %}
+        {% if field.widget.input_type != 'submit' %}
+          {{ field(class_="form-control form-max-width mt-3") }}
+        {% else %}
+          {{ field(class_="btn btn-main d-inline me-2 my-4") }}
+        {% endif %}
+        {% for e in field.errors %}
+        <small class="form-error d-block">{{ e }}</small>
+        {% endfor %}
+        {% endfor %}
+        <button type="buttom" id="username-form-section-hide" class="btn btn-main d-inline my-4">Cancel</button>
+      </form>
+    </div>
+    <div id="password-form-section" class="mt-4">
+      <h2>Change Password</h2>
+      <form action="{{ url_for('show_user_info', username=user.username) }}" method="post">
+        {{ change_password_form.hidden_tag() }}
+        {% for field in change_password_form if field.widget.input_type != 'hidden' %}
+        {% if field.widget.input_type != 'submit' %}
+          {{ field(class_="form-control form-max-width mt-3") }}
+        {% else %}
+          {{ field(class_="btn btn-main d-inline me-2 my-4") }}
+        {% endif %}
+        {% for e in field.errors %}
+        {% endfor %}
+        {% endfor %}
+        <button type="buttom" id="password-form-section-hide" class="btn btn-main d-inline my-4">Cancel</button>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock %}
 {% block scripts %}
 <script src={{ url_for('static', filename='forms.js') }}></script>
+<script src={{ url_for('static', filename='confirmations.js') }}></script>
 {% endblock %}

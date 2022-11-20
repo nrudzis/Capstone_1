@@ -17,16 +17,16 @@
         {% if field.widget.input_type != 'submit' %}
           {{ field(class_="form-control form-max-width mt-3") }}
         {% else %}
-          {{ field(class_="btn btn-outline-light my-4") }}
+          {{ field(class_="btn btn-main my-4") }}
         {% endif %}
         {% for e in field.errors %}
         <small class="form-error d-block">{{ e }}</small>
         {% endfor %}
         {% endfor %}
       </form>
-      <p><span class="d-inline align-middle">Don't have an account? Register </span><button id="register-form-section-show" class="btn btn-link px-0">here</button><span class="d-inline-block align-middle">.</span></p>
+      <p>Don't have an account? Register <span id="register-form-section-show" class="btn-link">here</span>.</p>
     </div>
-    <div id="register-form-section" style="display: none">
+    <div id="register-form-section">
       <h1 class="mb-5">Register</h1>
       <form action="{{ url_for('show_home') }}" method="post">
         {{ register_form.hidden_tag() }}
@@ -34,14 +34,14 @@
         {% if field.widget.input_type != 'submit' %}
           {{ field(class_="form-control form-max-width mt-3") }}
         {% else %}
-          {{ field(class_="btn btn-outline-light my-4") }}
+          {{ field(class_="btn btn-main my-4") }}
         {% endif  %}
         {% for e in field.errors %}
         <small class="form-error d-block">{{ e }}</small>
         {% endfor %}
         {% endfor %}
       </form>
-      <p><span class="d-inline align-middle">Already have an account? Log in </span><button id="login-form-section-show" class="btn btn-link px-0">here</button><span class="d-inline-block align-middle">.</span></p>
+      <p>Already have an account? Log in <span id="login-form-section-show" class="btn-link">here</span>.</p>
     </div>
   </div>
 </div>

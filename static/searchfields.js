@@ -23,8 +23,8 @@ function appendRemoveBtn() {
   if ($lis.length===2) {
     $lis.each(function() {
       $(this).append(`
-        <button type="button" class="remove-searchfield-btn btn btn-outline-danger position-relative ms-3">
-          <span class="material-symbols-outlined position-absolute top-50 start-50 translate-middle">close</span>
+        <button type="button" class="btn btn-round btn-remove position-relative ms-3">
+          <span class="material-symbols-outlined position-absolute top-50 start-50 translate-middle">remove</span>
         </button>
       `);
     });
@@ -44,14 +44,15 @@ function addNewSearchfield() {
 $('#add-searchfield-btn')
   .on('click', () => {
     addNewSearchfield();
+    $('#multiple-search-form')[0].scrollIntoView({block: "end"})
   });
 
 $(document)
-  .on('click', '.remove-searchfield-btn', function() {
+  .on('click', '.btn-remove', function() {
     $(this).parent().remove();
     const $lis = $searchfields.children('li');
     if ($lis.length<2) {
-      $('.remove-searchfield-btn').remove();
+      $('.btn-remove').remove();
     }
     reindex();
   });

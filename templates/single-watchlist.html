@@ -1,49 +1,80 @@
 {% extends 'base.html' %}
 {% block title %}{{ watchlist.title }}{% endblock %}
-{% block h1 %}{{ watchlist.title }}{% endblock %}
 {% block content %}
-<p><em>Created:</em> {{ watchlist.date_created }}, <em>Updated:</em> {{ watchlist.last_updated }}</p>
-{% if watchlist.description %}
-<h2>Description</h2>
-<p>{{ watchlist.description }}</p>
-{% endif %}
-<div id="watchlist-companies-section">
-  <h2>Companies</h2>
-  {% if watchlist.companies %}
-  <ul>
-    {% for company in watchlist.companies %}
-    <li>
-      <a href="{{ url_for('show_company_info', ticker=company.ticker) }}">{{ company.name }} ({{ company.ticker }})</a>
-      <form action="{{ url_for('remove_company', username=session['username'], watchlist_id=watchlist.id, company_id=company.id) }}" method="post" style="display: inline">
-        <input type="submit" value="X">
+<div class="row justify-content-start">
+  <div class="col col-xs-auto col-xl-10 col-xxl-8 px-xs-3 px-sm-5 pt-5 pb-0">
+    <h1 class="mb-1">{{ watchlist.title }}</h1>
+    <small class="watchlist-datetimes d-block mb-5">Created: {{ watchlist.date_created|format_dt }}<span class="me-2"></span>Updated: {{ watchlist.last_updated|format_dt }}</small>
+    {% if watchlist.description %}
+    <h2>Description</h2>
+    <p class="mb-5">{{ watchlist.description }}</p>
+    {% endif %}
+    <div id="watchlist-companies-section">
+      <h2>Companies</h2>
+      {% if watchlist.companies %}
+      <ul class="list-group list-group-flush">
+        {% for company in watchlist.companies %}
+        <li class="list-group-item container-fluid pt-0 mb-2">
+          <div class="row">
+            <div class="col-10 col-sm-11">
+              <a class="lead lg-item-heading" href="{{ url_for('show_company_info', ticker=company.ticker) }}">{{ company.name }} ({{ company.ticker }})</a>
+              {% if company.description %}
+              <p class="mb-0">
+                {{ company.description|truncate(100) }}
+              </p>
+              {% endif %}
+              <p class="mb-0">
+                {% if (company.q_eps_growth_first, company.q_eps_growth_next, company.q_eps_growth_last)|eg_trend %}
+                <span class="material-symbols-outlined trend-icon {{ (company.q_eps_growth_first, company.q_eps_growth_next, company.q_eps_growth_last)|eg_trend }}">{{ (company.q_eps_growth_first, company.q_eps_growth_next, company.q_eps_growth_last)|eg_trend }}</span>
+                {% endif %}
+                Q: {{ company.q_eps_growth_last|round(2) if company.q_eps_growth_last != None else '--' }} | {{ company.q_eps_growth_next|round(2) if company.q_eps_growth_next != None else '--' }} | {{ company.q_eps_growth_first|round(2) if company.q_eps_growth_first != None else '--' }}
+                <span class="me-2"></span>
+                {% if (company.a_eps_growth_first, company.a_eps_growth_next, company.a_eps_growth_last)|eg_trend %}
+                <span class="material-symbols-outlined trend-icon {{ (company.a_eps_growth_first, company.a_eps_growth_next, company.a_eps_growth_last)|eg_trend }}">{{ (company.a_eps_growth_first, company.a_eps_growth_next, company.a_eps_growth_last)|eg_trend }}</span>
+                {% endif %}
+                A: {{ company.a_eps_growth_last|round(2) if company.a_eps_growth_last != None else '--' }} | {{ company.a_eps_growth_next|round(2) if company.a_eps_growth_next != None else '--' }} | {{ company.a_eps_growth_first|round(2) if company.a_eps_growth_first != None else '--' }}
+              </p>
+            </div>
+            <div class="col-2 col-sm-1">
+              <form action="{{ url_for('remove_company', username=session['username'], watchlist_id=watchlist.id, company_id=company.id) }}" method="post" id="wlc-delete" class="delete-form d-flex">
+                <button type="submit" class="btn btn-round btn-remove position-relative ms-auto mt-2">
+                  <span class="material-symbols-outlined position-absolute top-50 start-50 translate-middle">delete</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>You haven't saved any companies in this list.</p>
+      {% endif %}
+    </div>
+    <button id="edit-wl-form-section-show" class="btn btn-main me-2 my-4">Edit Watchlist</button>
+    <form action="{{ url_for('delete_watchlist', username=session['username'], watchlist_id=watchlist.id) }}" method="post" id="wl-delete-dpage" class="delete-form wl-delete d-inline">
+      <input type="submit" value="Delete Watchlist" id="btn-delete" class="btn btn-main btn-remove my-4 me-2">
+    </form>
+    <div id="edit-wl-form-section" class="mt-4">
+      <h2>Edit Watchlist</h2>
+      <form method="post">
+        {{ watchlist_form.hidden_tag()}}
+        {% for field in watchlist_form if field.widget.input_type != 'hidden' %}
+        {% if field.widget.input_type != 'submit' %}
+          {{ field(class_="form-control form-max-width mt-3") }}
+        {% else %}
+          {{ field(class_="btn btn-main d-inline me-2 my-4") }}
+        {% endif %}
+        {% for e in field.errors %}
+        <small class="form-error d-block">{{ e }}</small>
+        {% endfor %}
+        {% endfor %}
+        <button type="button" id="edit-wl-form-section-hide" class="btn btn-main d-inline my-4">Cancel</button>
       </form>
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>You haven't saved any companies in this list.</p>
-  {% endif %}
-</div>
-<button id="watchlist-form-section-show" style="display: inline">Edit Watchlist</button>
-<form action="{{ url_for('delete_watchlist', username=session['username'], watchlist_id=watchlist.id) }}" method="post" style="display: inline">
-  <input type="submit" value="Delete Watchlist">
-</form>
-<div id="watchlist-form-section" style="display: none">
-  <h2>Edit Watchlist</h2>
-  <form action="{{ url_for('show_watchlist', username=session['username'], watchlist_id=watchlist.id) }}" method="post">
-    {{ watchlist_form.hidden_tag()}}
-    {% for field in watchlist_form if field.widget.input_type != 'hidden' %}
-    <p>
-      {{ field(class_="form-control") }}
-      {% for e in field.errors %}
-      <small>{{ e }}</small>
-      {% endfor %}
-    </p>
-    {% endfor %}
-  </form>
-  <button id="watchlist-form-section-hide">Cancel</button>
+    </div>
+  </div>
 </div>
 {% endblock %}
 {% block scripts %}
 <script src={{ url_for('static', filename='forms.js') }}></script>
+<script src={{ url_for('static', filename='confirmations.js') }}></script>
 {% endblock %}

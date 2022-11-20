@@ -9,11 +9,12 @@ $showFormSectionBtns.click(function(e) {
   const btnId = e.target.id;
   const formSectionId = btnId.replace('-show', '');
   $('#' + formSectionId).show();
+  $('#' + formSectionId)[0].scrollIntoView();
   $('#' + btnId).hide();
 });
 
 $hideFormSectionBtns.click(function() {
-  $('[id$="-form-section"]').hide();
+  $formSections.hide();
   //$(this).parent().hide();
   $showFormSectionBtns.each(function() {
     $(this).show();
