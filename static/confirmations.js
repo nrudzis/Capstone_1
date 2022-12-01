@@ -1,7 +1,7 @@
 //Confirmation message to send
 function deleteMessage($dForm) {
   if($dForm.is('#wlc-delete')) {
-    const wlcCompany = $dForm.parent().siblings().find('.search-result-heading').text();
+    const wlcCompany = $dForm.parent().siblings().find('.lg-item-heading').text();
     const wlcWatchlist = $('h1').text();
     return `Remove ${wlcCompany} from '${wlcWatchlist}'?`;
   }
@@ -10,7 +10,7 @@ function deleteMessage($dForm) {
       const wlDPageWatchlist = $('h1').text();
       return `Delete '${wlDPageWatchlist}'?`;
     } else {
-      const wlLPageWatchlist= $dForm.parent().siblings().find('.search-result-heading').text();
+      const wlLPageWatchlist= $dForm.parent().siblings().find('.lg-item-heading').text();
       return `Delete '${wlLPageWatchlist}'?`;
     }
   }

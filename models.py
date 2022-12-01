@@ -129,3 +129,12 @@ class WatchlistCompany(db.Model):
 
     watchlist_id = db.Column(db.Integer, db.ForeignKey('watchlists.id', ondelete='CASCADE'), primary_key=True)
     company_id = db.Column(db.Integer, db.ForeignKey('companies.id', ondelete='CASCADE'), primary_key=True)
+
+
+class QueuedTicker(db.Model):
+    """Queued ticker model."""
+
+    __tablename__ = 'queued_tickers'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    ticker = db.Column(db.Text, nullable=False)

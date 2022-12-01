@@ -30,7 +30,7 @@ def login_required(f):
             flash('You need to log in to do that!')
             return redirect(url_for('show_home'))
         return f(**kwargs)
-    return wrapper 
+    return wrapper
 
 
 def check_username(f):
@@ -47,6 +47,8 @@ def check_username(f):
 
 @app.template_filter('eg_trend')
 def eg_trend(egs):
+    """Return EPS growth trend direction (up, down, flat) as string, or False if inadequate data."""
+
     if None in egs:
         if egs[0] is None or len(set(egs)) == 1 or egs[1:3].count(None) == 2:
             return False
@@ -75,9 +77,14 @@ def eg_trend(egs):
 
 @app.template_filter('format_dt')
 def format_dt(dt):
+    """Return string representation of date and time from datetime object."""
+
     return dt.strftime('%b %d, %Y %I:%M:%S %p')
 
+
 def timeGreet():
+    """Return time-based greeting as string."""
+
     hour = int(datetime.now().hour)
     if hour >= 0 and hour < 12:
         return 'Good morning'

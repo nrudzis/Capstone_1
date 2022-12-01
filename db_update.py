@@ -3,23 +3,12 @@ from keys import fmp_key, p_key
 from datetime import date, datetime
 from time import sleep
 import yfinance
-from models import db
+from models import db, Company, QueuedTicker
 
 
-seasons = [('09-01', '11-30'), ('06-01', '08-31'), ('03-01', '05-31'), ('12-01', '02-28')]
-current_date = str(date.today())
-fmp_calls = 0
+SEASONS = [('09-01', '11-30'), ('06-01', '08-31'), ('03-01', '05-31'), ('12-01', '02-28')]
+CURRENT_DATE = str(date.today())
 p_calls = 0
-
-
-def check_fmp_calls():
-    """FMP free API permits 250 calls/day. Pauses execution for a day if 250 calls made."""
-
-    global fmp_calls
-    fmp_calls += 1
-    if fmp_calls == 250:
-        fmp_calls = 0
-        sleep(86400)
 
 
 def check_p_calls():
@@ -35,7 +24,6 @@ def check_p_calls():
 def get_tickers():
     """Returns list of NASDAQ tickers."""
 
-    check_fmp_calls()
     resp = requests.get('https://financialmodelingprep.com/api/v3/stock-screener',
         params={
            'volumeMoreThan': '1000', #reduces tickers of illiquid stocks and various non-ETF funds
@@ -52,7 +40,6 @@ def get_tickers():
 def get_a_eps_list(ticker):
     """Returns list of tuples with annual filing date and annual eps, or False if less then four years of data."""
 
-    check_fmp_calls()
     resp = requests.get(f'https://financialmodelingprep.com/api/v3/income-statement/{ticker}',
         params={
             'apikey': fmp_key
@@ -68,7 +55,7 @@ def get_current_season():
 
     curr_month = int(current_date[5:7])
     curr_season = ('12-01', '02-28')
-    for season in seasons[0:3]:
+    for season in SEASONS[0:3]:
         if curr_month >= int(season[0][:2]) and curr_month <= int(season[1][:2]):
             curr_season = season
     return curr_season
@@ -91,9 +78,9 @@ def generate_current_cycle():
     """Generates last twelve earnings season date ranges as list of tuples, starting with the current season."""
 
     curr_season = get_current_season()
-    for i, season in enumerate(seasons):
+    for i, season in enumerate(SEASONS):
         if season == curr_season:
-            seasons_ordered = seasons[i:] + seasons[:i]
+            seasons_ordered = SEASONS[i:] + SEASONS[:i]
     cycle = seasons_ordered * 3
     curr_cycle = insert_years(cycle)
     return curr_cycle
@@ -341,51 +328,101 @@ def add_new_company(company_dict):
     db.session.commit()
 
 
-#get list with all tickers from the API
-api_tickers = get_tickers()
+def delete_queued_ticker(ticker):
+    """Delete queued ticker from the database."""
 
-#get list with all tickers in the database
-db_tickers = [company.ticker for company in Company.query.all()]
+    qt = QueuedTicker.query.filter_by(ticker=ticker).first()
+    db.session.delete(qt)
+    db.session.commit()
 
-#if a company in the database isn't in the list from the API, remove it from the database
-for ticker in db_tickers:
-    if ticker not in api_tickers:
-        company = Company.query.filter_by(ticker=ticker).first()
-        db.session.delete(company)
+
+def reconcile_tickers(api_tickers, db_tickers):
+    """Delete company from the database if not in the list of tickers from the API."""
+
+    for ticker in db_tickers:
+        if ticker not in api_tickers:
+            company = Company.query.filter_by(ticker=ticker).first()
+            db.session.delete(company)
+            db.session.commit()
+
+
+def update_ticker_queue(tickers):
+    """Update ticker queue."""
+
+    for ticker in tickers:
+        qt = QueuedTicker(
+            ticker = ticker
+        )
+        db.session.add(qt)
         db.session.commit()
 
-#fill/update the database
-for ticker in api_tickers:
-    try:
 
-        #get list with annual data
-        a_eps_list = get_a_eps_list(ticker)
+def update_db(tickers):
+    """Update the db."""
 
-        #if there's a problem with the annual data, move on to the next ticker
-        if not a_eps_list:
+    for ticker in tickers:
+
+        #remove ticker from the queue
+        delete_queued_ticker(ticker)
+        try:
+
+            #get list with annual data
+            a_eps_list = get_a_eps_list(ticker)
+
+            #if there's a problem with the annual data, move on to the next ticker
+            if not a_eps_list:
+                continue
+
+            #get list with quarterly data
+            q_eps_list = get_q_eps_list(ticker)
+
+            #if there's a problem with the quarterly data, move on to the next ticker
+            if not q_eps_list:
+                continue
+
+            #store all company info in a dictionary
+            company_dict = make_company_dict(ticker, a_eps_list, q_eps_list)
+
+            #check if this company is already in the database
+            company = Company.query.filter_by(ticker=ticker).first()
+
+            #if it is in the database, update it
+            if company:
+                update_company(company, company_dict)
+
+            #if not, add it
+            else:
+                add_new_company(company_dict)
+
+        #for anything else unexpected, move on to the next ticker
+        except:
             continue
 
-        #get list with quarterly data
-        q_eps_list = get_q_eps_list(ticker)
 
-        #if there's a problem with the quarterly data, move on to the next ticker
-        if not q_eps_list:
-            continue
+#get first 250 tickers in the queue
+queued_tickers = QueuedTicker.query.limit(250).all()
 
-        #store all company info in a dictionary
-        company_dict = make_company_dict(ticker, a_eps_list, q_eps_list)
+if queued_tickers:
 
-        #check if this company is already in the database
-        company = Company.query.filter_by(ticker=ticker).first()
+    #update the db
+    update_db([qt.ticker for qt in queued_tickers])
 
-        #if it is in the database, update it
-        if company:
-            update_company(company, company_dict)
+else:
 
-        #if not, add it
-        else:
-            add_new_company(company_dict)
+    #get all tickers from api
+    api_tickers = get_tickers()
 
-    #for anything else unexpected, move on to the next ticker
-    except:
-        continue
+    #get all Company model tickers
+    db_tickers = [company.ticker for company in Company.query.all()]
+
+    #remove any company whose ticker isn't in the api tickers
+    reconcile_tickers(api_tickers, db_tickers)
+
+    #add all the api tickers to the ticker queue
+    update_ticker_queue(api_tickers)
+
+    #get first 249 tickers in the queue
+    queued_tickers = QueuedTicker.query.limit(249).all()
+
+    #update the db
+    update_db([qt.ticker for qt in queued_tickers])
