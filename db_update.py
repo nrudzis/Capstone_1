@@ -53,7 +53,7 @@ def get_a_eps_list(ticker):
 def get_current_season():
     """Returns tuple with current earnings season month-day date range."""
 
-    curr_month = int(current_date[5:7])
+    curr_month = int(CURRENT_DATE[5:7])
     curr_season = ('12-01', '02-28')
     for season in SEASONS[0:3]:
         if curr_month >= int(season[0][:2]) and curr_month <= int(season[1][:2]):
@@ -64,7 +64,7 @@ def get_current_season():
 def insert_years(cycle):
     """Inserts years into earnings season date ranges."""
 
-    year = int(current_date[0:4])
+    year = int(CURRENT_DATE[0:4])
     for i, season in enumerate(cycle):
         if season[0][:2] != '12':
             cycle[i] = (f'{year}-{season[0]}', f'{year}-{season[1]}')
@@ -123,7 +123,7 @@ def validate_first_to_third_list(q_eps_list):
     return True
 
 
-def get_first_to_third_list(ticker, current_cycle):
+def get_first_to_third_list(ticker, current_cycle, a_eps_list):
     """
     Returns list of tuples with quarterly filing date and quarterly eps for first, second and third quarters, and empty tuples for fourth quarter.
     Returns False if an unexpected pattern is encountered.
@@ -186,7 +186,7 @@ def adjust_if_split(split_data, q_eps_list):
     return q_eps_list
 
 
-def add_fourth_q_eps(q_eps_list):
+def add_fourth_q_eps(q_eps_list, a_eps_list):
     """Replaces empty tuples with tuple containing fourth quarter filing date and calculated fourth quarter eps."""
 
     for i, q_eps in enumerate(q_eps_list):
@@ -203,19 +203,19 @@ def add_fourth_q_eps(q_eps_list):
     return q_eps_list
 
 
-def get_q_eps_list(ticker):
+def get_q_eps_list(ticker, a_eps_list):
     """Returns list of tuples with quarterly filing date and complete and adjusted quarterly eps, or False if not available."""
 
     current_cycle = generate_current_cycle()
-    first_to_third_list = get_first_to_third_list(ticker, current_cycle)
+    first_to_third_list = get_first_to_third_list(ticker, current_cycle, a_eps_list)
     if not first_to_third_list:
         return False
     split_data = get_split_data(ticker)
     if split_data:
         splits_checked_list = adjust_if_split(split_data, first_to_third_list)
-        q_eps_list = add_fourth_q_eps(splits_checked_list)
+        q_eps_list = add_fourth_q_eps(splits_checked_list, a_eps_list)
         return q_eps_list
-    q_eps_list = add_fourth_q_eps(first_to_third_list)
+    q_eps_list = add_fourth_q_eps(first_to_third_list, a_eps_list)
     return q_eps_list
 
 
@@ -351,14 +351,14 @@ def update_ticker_queue(tickers):
 
     for ticker in tickers:
         qt = QueuedTicker(
-            ticker = ticker
+            ticker=ticker
         )
         db.session.add(qt)
         db.session.commit()
 
 
 def update_db(tickers):
-    """Update the db."""
+    """Update the database."""
 
     for ticker in tickers:
 
@@ -374,7 +374,7 @@ def update_db(tickers):
                 continue
 
             #get list with quarterly data
-            q_eps_list = get_q_eps_list(ticker)
+            q_eps_list = get_q_eps_list(ticker, a_eps_list)
 
             #if there's a problem with the quarterly data, move on to the next ticker
             if not q_eps_list:
@@ -404,7 +404,7 @@ queued_tickers = QueuedTicker.query.limit(250).all()
 
 if queued_tickers:
 
-    #update the db
+    #update the database
     update_db([qt.ticker for qt in queued_tickers])
 
 else:
@@ -424,5 +424,5 @@ else:
     #get first 249 tickers in the queue
     queued_tickers = QueuedTicker.query.limit(249).all()
 
-    #update the db
+    #update the database
     update_db([qt.ticker for qt in queued_tickers])
