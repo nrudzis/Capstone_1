@@ -10,6 +10,7 @@ from models import User
 class LoginForm(FlaskForm):
     """Form to log in an existing user."""
 
+    local_time = HiddenField()
     username = StringField(validators=[InputRequired()], render_kw={'placeholder':'Username'})
     password = PasswordField(validators=[InputRequired()], render_kw={'placeholder':'Password'})
     login = SubmitField('Log In')

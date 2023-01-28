@@ -6,14 +6,14 @@ from models import db, connect_db, User, Company, Watchlist, WatchlistCompany
 from forms import LoginForm, RegisterForm, SearchForm, SearchByTickerForm, WatchlistForm, AddToWatchlistForm, ChangeEmailForm, ChangeUsernameForm, ChangePasswordForm
 from sqlalchemy.exc import IntegrityError
 from functools import wraps
-from datetime import datetime
+import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///stocks'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///stocks').replace('postgres://', 'postgresql://', 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-app.config['SECRET_KEY'] = 'secret'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'mostsecret')
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
@@ -23,25 +23,25 @@ connect_db(app)
 # HELPER FUNCTIONS
 def login_required(f):
     @wraps(f)
-    def wrapper(**kwargs):
+    def wrapper(*args, **kwargs):
         """Retrict access to logged in users."""
 
         if 'username' not in session:
             flash('You need to log in to do that!')
             return redirect(url_for('show_home'))
-        return f(**kwargs)
-    return wrapper
+        return f(*args, **kwargs)
+    return wrapper 
 
 
 def check_username(f):
     @wraps(f)
-    def wrapper(username, **kwargs):
+    def wrapper(username, *args, **kwargs):
         """Prevent users from accessing other users' views."""
 
         if username != session['username']:
             flash('Action not permitted!')
             return redirect(url_for('show_home'))
-        return f(username, **kwargs)
+        return f(username, *args, **kwargs)
     return wrapper
 
 
@@ -82,10 +82,10 @@ def format_dt(dt):
     return dt.strftime('%b %d, %Y %I:%M:%S %p')
 
 
-def timeGreet():
+def time_greet(local_time):
     """Return time-based greeting as string."""
 
-    hour = int(datetime.now().hour)
+    hour = int(local_time)
     if hour >= 0 and hour < 12:
         return 'Good morning'
     elif hour >=12 and hour < 17:
@@ -110,13 +110,14 @@ def show_home():
         login_form = LoginForm(prefix='login')
         register_form = RegisterForm(prefix='register')
         if login_form.login.data and login_form.validate_on_submit():
+            local_time = login_form.local_time.data
             username = login_form.username.data
             password = login_form.password.data
             user = User.authenticate(username, password)
             if user:
                 session['username'] = user.username
-                greeting = timeGreet()
-                flash(f"{greeting}, {user.username}!")
+                greeting = time_greet(local_time)
+                flash(f'{greeting}, {user.username}!')
                 return redirect(url_for('show_home'))
             else:
                 login_form.username.errors = ['Username or password is invalid.']

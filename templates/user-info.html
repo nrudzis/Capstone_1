@@ -75,6 +75,7 @@
           {{ field(class_="btn btn-main d-inline me-2 my-4") }}
         {% endif %}
         {% for e in field.errors %}
+        <small class="form-error d-block">{{ e }}</small>
         {% endfor %}
         {% endfor %}
         <button type="buttom" id="password-form-section-hide" class="btn btn-main d-inline my-4">Cancel</button>

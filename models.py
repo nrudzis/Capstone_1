@@ -131,10 +131,10 @@ class WatchlistCompany(db.Model):
     company_id = db.Column(db.Integer, db.ForeignKey('companies.id', ondelete='CASCADE'), primary_key=True)
 
 
-class QueuedTicker(db.Model):
-    """Queued ticker model."""
+class EnqueuedTicker(db.Model):
+    """Enqueued ticker model."""
 
-    __tablename__ = 'queued_tickers'
+    __tablename__ = 'enqueued_tickers'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     ticker = db.Column(db.Text, nullable=False)

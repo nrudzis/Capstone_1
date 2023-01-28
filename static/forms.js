@@ -46,3 +46,9 @@ function makePlaceholder(options) {
 const $firstOptions = $('.form-select').find('option:first-child');
 
 makePlaceholder($firstOptions);
+
+//TIME
+//Send user's local time with log in form
+const d = new Date();
+const local_time_hour = d.getHours();
+$('[name="login-local_time"]').val(local_time_hour);
