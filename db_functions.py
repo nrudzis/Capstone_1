@@ -5,15 +5,16 @@ import requests
 from datetime import date, datetime
 from time import sleep
 import yfinance
-from keys import fmp_key, p_key
 from models import db, Company, EnqueuedTicker
 import os
 
 
-FMP_KEY = fmp_key
-#FMP_KEY = os.environ.get('FMP_KEY') # use for flask-stocks-heroku
-P_KEY = p_key
-#P_KEY = os.environ.get('P_KEY') # use for flask-stocks-heroku
+FMP_KEY = os.environ.get('FMP_KEY')
+P_KEY = os.environ.get('P_KEY')
+if not (FMP_KEY and P_KEY):
+    from keys import fmp_key, p_key
+    FMP_KEY = fmp_key
+    P_KEY = p_key
 SEASONS = [('09-01', '11-30'), ('06-01', '08-31'), ('03-01', '05-31'), ('12-01', '02-28')]
 CURRENT_DATE = str(date.today())
 p_calls = 0
@@ -34,13 +35,13 @@ def get_tickers():
 
     tickers = []
     for exchange in ('NASDAQ', 'NYSE'):
-        resp = requests.get('https://financialmodelingprep.com/api/v3/stock-screener',
+        resp = requests.get('https://financialmodelingprep.com/stable/company-screener',
             params={'volumeMoreThan': '10000', #reduces tickers of illiquid stocks and various non-ETF funds
                     'isEtf': 'false',
                     'isActivelyTrading': 'true',
                     'exchange': exchange,
                     'country': 'US',
-                    'limit': 10000,
+                    'limit': '10000',
                     'apikey': FMP_KEY})
         data = resp.json()
         for i in range(len(data)):
@@ -51,12 +52,13 @@ def get_tickers():
 def get_a_eps_list(ticker):
     """Returns list of tuples with annual filing date and annual EPS, or False if less then four years of data."""
 
-    resp = requests.get(f'https://financialmodelingprep.com/api/v3/income-statement/{ticker}',
-        params={'apikey': FMP_KEY})
+    resp = requests.get('https://financialmodelingprep.com/stable/income-statement',
+        params={'symbol': ticker,
+                'apikey': FMP_KEY})
     data = resp.json()
     if len(data) < 4:
         return False
-    return [(data[i]['fillingDate'], data[i]['epsdiluted']) for i in range(4)]
+    return [(data[i]['filingDate'], data[i]['epsDiluted']) for i in range(4)]
 
 
 def get_current_season():
