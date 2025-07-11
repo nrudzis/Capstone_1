@@ -1,7 +1,6 @@
 """Stocks application."""
 
 from flask import Flask, redirect, render_template, url_for, session, request, flash
-from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Company, Watchlist, WatchlistCompany
 from forms import LoginForm, RegisterForm, SearchForm, SearchByTickerForm, WatchlistForm, AddToWatchlistForm, ChangeEmailForm, ChangeUsernameForm, ChangePasswordForm
 from sqlalchemy.exc import IntegrityError
@@ -14,8 +13,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgres
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'mostsecret')
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-debug = DebugToolbarExtension(app)
+
+# Only use debug toolbar if enabled
+if os.environ.get('USE_DEBUG_TOOLBAR') == '1':
+    app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+    from flask_debugtoolbar import DebugToolbarExtension
+    debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
