@@ -2,7 +2,7 @@
 ### Project description
 - Search for companies by EPS growth and number of institutional holders. Read about companies and visualize data. Create watchlists to track these metrics over time. Includes companies trading on the NYSE and NASDAQ.
 - Based on free APIs. Some companies may not appear due to API constraints, including recent IPOs, companies with recent ticker changes, and companies with irregular earnings report dates.
-- Try it out on Heroku: [https://flask-stocks-nrudzis.herokuapp.com/](https://flask-stocks-nrudzis.herokuapp.com/)
+- Try it out on Render: [https://flask-stocks.onrender.com/](https://flask-stocks.onrender.com/)
 
 ### User flow
 - `Register/Log In` from the home page.
@@ -34,7 +34,8 @@
 - `jQuery`
 - `Charts.js`
 - `yFinance`
-- Deployed with `Heroku`
+- Deployed with `Render`
+- Database hosted on `Supabase`
 
 Submitted on 2023-01-28 to fulfill the requirements of Capstone 1 project for Springboard's Software Engineering Career Track.
 
