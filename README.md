@@ -1,11 +1,13 @@
 # Stocks
-### Project description
+### Project Description
+- Lightweight stock fundamentals research app inspired in part by the CANSLIM criteria developed by legendary investor Bill O'Neil. 
 - Search for companies by EPS growth and number of institutional holders. Read about companies and visualize data. Create watchlists to track these metrics over time. Includes companies trading on the NYSE and NASDAQ.
-- Based on free APIs. Some companies may not appear due to API constraints, including recent IPOs, companies with recent ticker changes, and companies with irregular earnings report dates.
-- Try it out on Render: [https://flask-stocks.onrender.com/](https://flask-stocks.onrender.com/)
+- Based on free APIs. Some companies may not appear due to API constraints, including recent IPOs, companies with recent ticker changes, and companies with irregular earnings report dates. There are currently about 1000 companies available in the database.
+- Try it out: [https://flask-stocks.onrender.com/](https://flask-stocks.onrender.com/).
+  > ⚠️ **Note:** Deployed on Render's free tier. If app has been idle, it can take **half a minute to start**. This delay only occurs on first load.
 
-### User flow
-- `Register/Log In` from the home page.
+### User Flow
+- `Register/Log In` from the home page. The registration form only validates syntax so using a fake email works great.
 - Once logged in, you can toggle between two search forms. `Multiple Conditions Search` lets you add and subtract form fields using the `+` and `-` buttons to tailor a complex search. If you already have a particular company in mind, click `Switch to Ticker Search` button to search by an individual ticker.
 - A cool feature from within the search results page is a (truncated) company description, and colored icons indicating trends in quarterly and annual EPS growth, including these numbers and number of institutional holders. This saves you time if you're searching for particular kinds of businesses, or particular trends in the data.
 - If you want to save your search results in a watchlist, click the `Save Results in Watchlist` button, at the bottom of the results page.
@@ -14,13 +16,13 @@
 - From the navigation menu at the top, view and edit your existing watchlists using the `Watchlists` button. You can delete watchlists using the trash buttons on the watchlists page, or by clicking the `Delete Watchlist` button within the page for an individual list.
 - Edit your watchlist title and/or description using the `Edit Watchlist` button from within the individual watchlist page. You can also remove companies from the watchlist by clicking the trash buttons.
 - To view and edit your user information, including deleting your account, click your username, which appears in **bold** on the navigation menu.
-- To `Log Out`, click the button labeled such on the top right!
+- Click `Log Out`on the top right to exit.
 
 ### APIs
 - [Financial Modeling Prep](https://site.financialmodelingprep.com/developer/docs/) (for ticker symbols and annual EPS numbers).
 - [polygon.io](https://polygon.io/docs/stocks/getting-started) (for quarterly EPS numbers and company descriptions).
 
-### Tech stack
+### Technologies Used
 - `Python`
 - `Flask`
 - `PostgreSQL`
@@ -30,7 +32,7 @@
 - `Jinja` 
 - `Bootstrap`
 - `CSS`
-- `Javascript`
+- `JavaScript`
 - `jQuery`
 - `Charts.js`
 - `yFinance`
