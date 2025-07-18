@@ -19,8 +19,8 @@
 - Click `Log Out`on the top right to exit.
 
 ### APIs
-- [Financial Modeling Prep](https://site.financialmodelingprep.com/developer/docs/) (for ticker symbols and annual EPS numbers).
-- [polygon.io](https://polygon.io/docs/stocks/getting-started) (for quarterly EPS numbers and company descriptions).
+- [Financial Modeling Prep](https://site.financialmodelingprep.com/developer/docs/stable) (for ticker symbols and annual EPS numbers).
+- [polygon.io](https://polygon.io/docs/rest/stocks/overview) (for quarterly EPS numbers and company descriptions).
 
 ### Technologies Used
 - `Python`
@@ -38,6 +38,10 @@
 - `yFinance`
 - Deployed with `Render`
 - Database hosted on `Supabase`
+
+![Database schema diagram](schema/db_schema.PNG)
+
+*App database schema diagram in Supabase*
 
 Submitted on 2023-01-28 to fulfill the requirements of Capstone 1 project for Springboard's Software Engineering Career Track.
 
