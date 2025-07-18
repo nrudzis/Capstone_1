@@ -12,6 +12,9 @@
 - A cool feature from within the search results page is a (truncated) company description, and colored icons indicating trends in quarterly and annual EPS growth, including these numbers and number of institutional holders. This saves you time if you're searching for particular kinds of businesses, or particular trends in the data.
 - If you want to save your search results in a watchlist, click the `Save Results in Watchlist` button, at the bottom of the results page.
 - Click on company names from the results page to view information about an individual company.
+
+![Individual company screenshot](screenshots/company.PNG)
+
 - If you have already created one or more watchlists, they will appear in a drop-down menu at the bottom of the company info page. Use this to add companies to your existing lists.
 - From the navigation menu at the top, view and edit your existing watchlists using the `Watchlists` button. You can delete watchlists using the trash buttons on the watchlists page, or by clicking the `Delete Watchlist` button within the page for an individual list.
 - Edit your watchlist title and/or description using the `Edit Watchlist` button from within the individual watchlist page. You can also remove companies from the watchlist by clicking the trash buttons.
@@ -40,6 +43,7 @@
 - Database hosted on `Supabase`
 
 ![Database schema diagram](schema/db_schema.PNG)
+
 *App database schema diagram in Supabase*
 
 ---
