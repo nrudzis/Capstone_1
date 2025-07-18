@@ -40,8 +40,9 @@
 - Database hosted on `Supabase`
 
 ![Database schema diagram](schema/db_schema.PNG)
-
 *App database schema diagram in Supabase*
+
+---
 
 Submitted on 2023-01-28 to fulfill the requirements of Capstone 1 project for Springboard's Software Engineering Career Track.
 
