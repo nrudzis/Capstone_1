@@ -13,7 +13,7 @@
 - If you want to save your search results in a watchlist, click the `Save Results in Watchlist` button, at the bottom of the results page.
 - Click on company names from the results page to view information about an individual company.
 
-![Individual company screenshot](screenshots/company.PNG)
+  ![Individual company screenshot](screenshots/company.PNG)
 
 - If you have already created one or more watchlists, they will appear in a drop-down menu at the bottom of the company info page. Use this to add companies to your existing lists.
 - From the navigation menu at the top, view and edit your existing watchlists using the `Watchlists` button. You can delete watchlists using the trash buttons on the watchlists page, or by clicking the `Delete Watchlist` button within the page for an individual list.
@@ -42,9 +42,9 @@
 - Deployed with `Render`
 - Database hosted on `Supabase`
 
-![Database schema diagram](schema/db_schema.PNG)
+  ![Database schema diagram](schema/db_schema.PNG)
 
-*App database schema diagram in Supabase*
+  *App database schema diagram in Supabase*
 
 ---
 
