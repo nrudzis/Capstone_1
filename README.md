@@ -29,7 +29,7 @@
 
 - To view and edit your user information, including deleting your account, click your username, which appears in **bold** on the navigation menu.
 
-  ![User account information screenshot](screenshot/user.PNG)
+  ![User account information screenshot](screenshots/user.PNG)
 
 - Click `Log Out`on the top right to exit.
 
