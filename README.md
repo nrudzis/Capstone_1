@@ -9,7 +9,13 @@
 ### User Flow
 - `Register/Log In` from the home page. The registration form only validates syntax so using a fake email works great.
 - Once logged in, you can toggle between two search forms. `Multiple Conditions Search` lets you add and subtract form fields using the `+` and `-` buttons to tailor a complex search. If you already have a particular company in mind, click `Switch to Ticker Search` button to search by an individual ticker.
+
+  ![Multiple searchfields screenshot](screenshots/search1.PNG)
+
 - A cool feature from within the search results page is a (truncated) company description, and colored icons indicating trends in quarterly and annual EPS growth, including these numbers and number of institutional holders. This saves you time if you're searching for particular kinds of businesses, or particular trends in the data.
+
+  ![Search results screenshot](screenshots/s_results.PNG)
+
 - If you want to save your search results in a watchlist, click the `Save Results in Watchlist` button, at the bottom of the results page.
 - Click on company names from the results page to view information about an individual company.
 
@@ -18,7 +24,13 @@
 - If you have already created one or more watchlists, they will appear in a drop-down menu at the bottom of the company info page. Use this to add companies to your existing lists.
 - From the navigation menu at the top, view and edit your existing watchlists using the `Watchlists` button. You can delete watchlists using the trash buttons on the watchlists page, or by clicking the `Delete Watchlist` button within the page for an individual list.
 - Edit your watchlist title and/or description using the `Edit Watchlist` button from within the individual watchlist page. You can also remove companies from the watchlist by clicking the trash buttons.
+
+  ![Watchlist screenshot](screenshots/watchlist.PNG)
+
 - To view and edit your user information, including deleting your account, click your username, which appears in **bold** on the navigation menu.
+
+  ![User account information screenshot](screenshot/user.PNG)
+
 - Click `Log Out`on the top right to exit.
 
 ### APIs
