@@ -38,9 +38,11 @@
 - [polygon.io](https://polygon.io/docs/rest/stocks/overview) (for quarterly EPS numbers and company descriptions).
 
 ### Technologies Used
-- `Python`
-- `Flask`
-- `PostgreSQL`
+
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+
 - `Flask-SQLAlchemy`
 - `Flask-WTForms`
 - `HTML`
