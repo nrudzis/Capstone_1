@@ -50,14 +50,14 @@
 
   [![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
   [![Flask-SQLAlchemy](https://img.shields.io/badge/Flask--SQLAlchemy-FF1717?style=for-the-badge&logo=sqlalchemy&logoColor=white)](https://flask-sqlalchemy.readthedocs.io/)
+  [![Jinja](https://img.shields.io/badge/Jinja-4B0082?style=for-the-badge&logo=jinja&logoColor=white)](https://jinja.palletsprojects.com/)
   [![Flask-WTF](https://img.shields.io/badge/Flask--WTF-B41717?style=for-the-badge)](https://flask-wtf.readthedocs.io/)
   [![yFinance](https://img.shields.io/badge/yFinance-0080FF?style=for-the-badge)](https://ranaroussi.github.io/yfinance/)
 
 - Frontend
 
-  [![Jinja](https://img.shields.io/badge/Jinja-4B0082?style=for-the-badge&logo=jinja&logoColor=white)](https://jinja.palletsprojects.com/)
-  [![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
   [![jQuery](https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white)](https://jquery.com/)
+  [![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
   [![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)](https://www.chartjs.org/)
 
 - Database
