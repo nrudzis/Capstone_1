@@ -34,8 +34,9 @@
 - Click `Log Out`on the top right to exit.
 
 ### APIs
-- [Financial Modeling Prep](https://site.financialmodelingprep.com/developer/docs/stable) (for ticker symbols and annual EPS numbers).
-- [polygon.io](https://polygon.io/docs/rest/stocks/overview) (for quarterly EPS numbers and company descriptions).
+- [Financial Modeling Prep](https://site.financialmodelingprep.com/developer/docs/stable): Tickers, Annual EPS
+- [Polygon.io](https://polygon.io/docs/rest/stocks/overview): Quarterly EPS, Company descriptions, Stock splits
+- [yFinance](https://ranaroussi.github.io/yfinance/): Institutional holders
 
 ### Technologies Used
 
@@ -52,7 +53,6 @@
   [![Flask-SQLAlchemy](https://img.shields.io/badge/Flask--SQLAlchemy-FF1717?style=for-the-badge&logo=sqlalchemy&logoColor=white)](https://flask-sqlalchemy.readthedocs.io/)
   [![Jinja](https://img.shields.io/badge/Jinja-4B0082?style=for-the-badge&logo=jinja&logoColor=white)](https://jinja.palletsprojects.com/)
   [![Flask-WTF](https://img.shields.io/badge/Flask--WTF-B41717?style=for-the-badge)](https://flask-wtf.readthedocs.io/)
-  [![yFinance](https://img.shields.io/badge/yFinance-0080FF?style=for-the-badge)](https://ranaroussi.github.io/yfinance/)
 
 - Frontend
 
