@@ -42,23 +42,23 @@
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Flask-SQLAlchemy](https://img.shields.io/badge/Flask--SQLAlchemy-FF1717?style=for-the-badge&logo=sqlalchemy&logoColor=white)](https://flask-sqlalchemy.readthedocs.io/)
+[![Flask-WTF](https://img.shields.io/badge/Flask--WTF-B41717?style=for-the-badge)](https://flask-wtf.readthedocs.io/)
+[![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML/)
+[![Jinja](https://img.shields.io/badge/Jinja-4B0082?style=for-the-badge&logo=jinja&logoColor=white)](https://jinja.palletsprojects.com/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+[![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/)
+[![jQuery](https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white)](https://jquery.com/)
+[![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)](https://www.chartjs.org/)
+[![yFinance](https://img.shields.io/badge/yFinance-0080FF?style=for-the-badge)](https://ranaroussi.github.io/yfinance/)
 
-- `Flask-SQLAlchemy`
-- `Flask-WTForms`
-- `HTML`
-- `Jinja` 
-- `Bootstrap`
-- `CSS`
-- `JavaScript`
-- `jQuery`
-- `Charts.js`
-- `yFinance`
-- Deployed with `Render`
-- Database hosted on `Supabase`
+Deployed with [![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black)](https://render.com/)
+Database hosted on [![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 
-  ![Database schema diagram](schema/db_schema.PNG)
+![Database schema diagram](schema/db_schema.PNG)
 
-  *App database schema diagram in Supabase*
+*App database schema diagram in Supabase*
 
 ---
 
